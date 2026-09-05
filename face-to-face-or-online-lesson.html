@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Face-to-Face or Online?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Literata:ital,opsz,wght@0,18..144,400;0,18..144,500;0,18..144,600;1,18..144,500&family=IBM+Plex+Mono:wght@500;600&family=Work+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --paper:#eef1f6;
+  --paper-raised:#ffffff;
+  --ink:#1c222b;
+  --ink-soft:#59626f;
+  --line:#d9dee6;
+  --f2f:#c8703f;
+  --f2f-soft:#f3ddc9;
+  --f2f-ink:#7a3f1e;
+  --online:#2563a6;
+  --online-soft:#d7e6f4;
+  --online-ink:#153f66;
+  --success:#2f8f5b;
+  --success-soft:#dcf1e4;
+  --danger:#c14444;
+  --danger-soft:#f8dede;
+  --tooltip-bg:#1c2530;
+  --tooltip-fg:#f4f6f9;
+  --shadow: 0 1px 2px rgba(28,34,43,.06), 0 8px 24px -12px rgba(28,34,43,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11151b;
+    --paper-raised:#1a2029;
+    --ink:#eceff3;
+    --ink-soft:#9aa5b4;
+    --line:#2b3340;
+    --f2f:#e08a57;
+    --f2f-soft:#3a2a1e;
+    --f2f-ink:#f0c19c;
+    --online:#69aee0;
+    --online-soft:#1c2c3c;
+    --online-ink:#bcdcf6;
+    --success:#59c98a;
+    --success-soft:#153a26;
+    --danger:#e07a7a;
+    --danger-soft:#3a1e1e;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11151b;
+  --paper-raised:#1a2029;
+  --ink:#eceff3;
+  --ink-soft:#9aa5b4;
+  --line:#2b3340;
+  --f2f:#e08a57;
+  --f2f-soft:#3a2a1e;
+  --f2f-ink:#f0c19c;
+  --online:#69aee0;
+  --online-soft:#1c2c3c;
+  --online-ink:#bcdcf6;
+  --success:#59c98a;
+  --success-soft:#153a26;
+  --danger:#e07a7a;
+  --danger-soft:#3a1e1e;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{color-scheme:light dark}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Work Sans',system-ui,sans-serif;
+  direction:ltr;
+}
+.mono{ font-family:'IBM Plex Mono',ui-monospace,monospace; }
+h1,h2,h3{ text-wrap:balance; margin:0; }
+.wrap{ max-width:900px; margin:0 auto; padding:0 20px 80px; }
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(80deg, var(--f2f-soft) 0 46%, transparent 46% 54%, var(--online-soft) 54% 100%);
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{
+  max-width:900px; margin:0 auto; padding:34px 20px 26px;
+  position:relative; z-index:1;
+}
+.eyebrow{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  font-size:.78rem; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:10px;
+}
+.eyebrow .tag{
+  font-family:'IBM Plex Mono',monospace;
+  background:var(--paper-raised); border:1px solid var(--line);
+  border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--ink-soft);
+}
+.hero h1{ font-size:clamp(1.6rem,4.2vw,2.3rem); font-weight:800; line-height:1.25; }
+.hero p{ color:var(--ink-soft); margin-top:10px; max-width:62ch; line-height:1.9; font-size:.95rem;}
+.hero p em{ color:var(--ink); font-style:italic; }
+.legend{ display:flex; gap:18px; margin-top:18px; flex-wrap:wrap; }
+.legend span{ display:flex; align-items:center; gap:7px; font-size:.85rem; font-weight:700; }
+.dot{ width:11px; height:11px; border-radius:50%; display:inline-block; flex:none; }
+.dot.f2f{ background:var(--f2f); }
+.dot.online{ background:var(--online); }
+
+/* ---------- Stepper ---------- */
+.stepper{
+  position:sticky; top:0; z-index:20;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.stepper-inner{
+  max-width:900px; margin:0 auto; padding:12px 20px;
+  display:flex; justify-content:space-between; gap:4px;
+}
+.step-btn{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
+  background:none; border:none; cursor:pointer; color:var(--ink-soft);
+  font-family:inherit; padding:4px 2px; position:relative;
+}
+.step-btn .num{
+  width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-size:.8rem; font-weight:600;
+  border:1.5px solid var(--line); background:var(--paper-raised); color:var(--ink-soft);
+  transition:background .15s,border-color .15s,color .15s;
+}
+.step-btn .lbl{ font-size:.72rem; font-weight:700; }
+.step-btn.active .num{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.step-btn.active .lbl{ color:var(--ink); }
+.step-btn.done .num{ background:var(--success); border-color:var(--success); color:#fff; }
+.step-btn:focus-visible{ outline:2px solid var(--online); outline-offset:2px; border-radius:8px; }
+
+/* ---------- Panels ---------- */
+.panel{ display:none; padding-top:26px; animation:fadeUp .35s ease both; }
+.panel.active{ display:block; }
+@media (prefers-reduced-motion: reduce){ .panel{ animation:none; } }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+
+.card{
+  background:var(--paper-raised); border:1px solid var(--line); border-radius:14px;
+  padding:22px; box-shadow:var(--shadow);
+}
+.section-title{ display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+.section-title .idx{ font-family:'IBM Plex Mono',monospace; color:var(--ink-soft); font-size:.85rem; }
+.section-title h2{ font-size:1.3rem; font-weight:800; }
+.hint{ color:var(--ink-soft); font-size:.9rem; line-height:1.8; margin:10px 0 20px; }
+
+/* ---------- Audio button ---------- */
+.sp-btn{
+  display:inline-flex; align-items:center; gap:3px; font-family:'Work Sans',sans-serif; font-size:.68rem; font-weight:700;
+  color:var(--f2f-ink); background:var(--f2f-soft); border:1px solid var(--f2f); border-radius:999px;
+  padding:2px 8px; cursor:pointer; vertical-align:middle; margin-left:6px; line-height:1.5; flex:none;
+}
+.sp-btn:hover{ filter:brightness(0.97); }
+.sp-btn:focus-visible{ outline:2px solid var(--f2f); outline-offset:2px; }
+
+/* ---------- Arabic translation: on-demand tooltip ---------- */
+.ar-trigger{
+  display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px;
+  border-radius:50%; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:'Almarai',sans-serif; font-weight:800; font-size:.72rem; line-height:1; cursor:pointer;
+  vertical-align:middle; margin-left:6px; flex:none; transition:background .15s,border-color .15s,color .15s;
+}
+.ar-trigger:hover{ border-color:var(--online); color:var(--online); background:var(--online-soft); }
+.ar-trigger:focus-visible{ outline:2px solid var(--online); outline-offset:2px; }
+.ar-trigger[aria-expanded="true"]{ background:var(--online); border-color:var(--online); color:#fff; }
+.ar-tooltip{
+  position:fixed; z-index:80; max-width:min(320px, calc(100vw - 24px)); box-sizing:border-box;
+  background:var(--tooltip-bg); color:var(--tooltip-fg);
+  font-family:'Almarai',sans-serif; direction:rtl; text-align:right; font-size:.86rem; line-height:1.85;
+  padding:11px 15px; border-radius:10px; box-shadow:0 16px 32px -12px rgba(0,0,0,.4);
+  opacity:0; transform:translateY(4px) scale(.97); pointer-events:none; transition:opacity .14s ease, transform .14s ease;
+}
+.ar-tooltip.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.ar-tooltip::after{
+  content:''; position:absolute; left:var(--arrow-left,50%); width:11px; height:11px;
+  background:var(--tooltip-bg); transform:translateX(-50%) rotate(45deg);
+}
+.ar-tooltip.above::after{ bottom:-5px; }
+.ar-tooltip.below::after{ top:-5px; }
+@media (prefers-reduced-motion: reduce){ .ar-tooltip{ transition:none; } }
+.credit-badge{
+  display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-weight:700;
+  font-size:.85rem; letter-spacing:.02em; color:var(--online-ink); background:var(--online-soft);
+  border:1px solid var(--online); border-radius:999px; padding:5px 16px; margin-bottom:14px;
+}
+
+/* ---------- Warm-up classify game ---------- */
+.zones{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px; }
+@media(max-width:560px){ .zones{ grid-template-columns:1fr; } }
+.zone{
+  border:2px dashed var(--line); border-radius:12px; padding:14px; min-height:150px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.zone-head{ display:flex; align-items:center; gap:8px; font-weight:800; font-size:.95rem; }
+.zone.f2f{ border-color:var(--f2f); background:color-mix(in srgb, var(--f2f-soft) 55%, transparent); }
+.zone.online{ border-color:var(--online); background:color-mix(in srgb, var(--online-soft) 55%, transparent); }
+.pool{
+  display:flex; flex-wrap:wrap; gap:8px; padding:14px; border:1px solid var(--line);
+  border-radius:12px; margin-bottom:14px; min-height:52px; background:var(--paper);
+}
+.chip{
+  font-family:'Literata',serif; font-size:.85rem; padding:7px 10px 7px 12px;
+  border-radius:999px; border:1px solid var(--line); background:var(--paper-raised);
+  cursor:pointer; line-height:1.4; transition:transform .12s, box-shadow .12s;
+}
+.chip:hover{ transform:translateY(-1px); box-shadow:var(--shadow); }
+.chip:focus-visible{ outline:2px solid var(--online); outline-offset:2px; }
+.chip.placed.f2f{ border-color:var(--f2f); background:var(--f2f-soft); }
+.chip.placed.online{ border-color:var(--online); background:var(--online-soft); }
+.chip.correct{ border-color:var(--success); box-shadow:0 0 0 2px color-mix(in srgb,var(--success) 35%, transparent); }
+.chip.wrong{ border-color:var(--danger); box-shadow:0 0 0 2px color-mix(in srgb,var(--danger) 35%, transparent); }
+.zone-empty{ color:var(--ink-soft); font-size:.8rem; }
+
+.reflect{ margin-top:22px; display:flex; flex-direction:column; gap:16px; }
+.reflect-q{ font-weight:700; line-height:1.8; }
+textarea{
+  width:100%; min-height:70px; resize:vertical; font-family:inherit; font-size:.9rem;
+  border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:var(--paper);
+  color:var(--ink); margin-top:8px;
+}
+textarea:focus-visible, input:focus-visible{ outline:2px solid var(--online); outline-offset:1px; }
+.save-note{ font-size:.75rem; color:var(--success); font-family:'IBM Plex Mono',monospace; min-height:1em; }
+
+/* ---------- Reading passage ---------- */
+.meta-row{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; }
+.meta-pill{
+  display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--ink-soft);
+  background:var(--paper); border:1px solid var(--line); border-radius:999px; padding:5px 12px;
+  font-family:'IBM Plex Mono',monospace;
+}
+.passage{
+  font-family:'Literata',Georgia,serif; line-height:1.9; font-size:1rem;
+}
+.passage h3{ font-size:1.5rem; font-weight:600; margin-bottom:14px; font-family:'Literata',serif; }
+.para{ margin-bottom:16px; display:flex; align-items:flex-start; gap:8px; }
+.para .pnum{
+  flex:none; width:24px; height:24px; border-radius:50%; margin-top:2px;
+  background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+  font-family:'IBM Plex Mono',monospace; font-size:.72rem; display:flex; align-items:center; justify-content:center;
+}
+.para .sp-btn{ margin-top:1px; margin-left:0; }
+.para .ptext{ flex:1; }
+.gloss{ border-bottom:1.5px dotted var(--online); cursor:pointer; color:inherit; }
+.gloss:hover, .gloss:focus-visible{ background:var(--online-soft); }
+
+/* ---------- Quiz ---------- */
+.qcard{ border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:16px; background:var(--paper); }
+.qcard .qtext{ font-family:'Literata',serif; font-size:1rem; font-weight:500; margin-bottom:12px; line-height:1.6; }
+.opts{ display:flex; flex-direction:column; gap:8px; }
+.opt{
+  font-family:'Literata',serif; font-size:.92rem;
+  border:1px solid var(--line); background:var(--paper-raised); border-radius:10px;
+  padding:10px 14px; cursor:pointer; transition:background .15s,border-color .15s; text-align:left;
+}
+.opt:hover:not(:disabled){ border-color:var(--online); }
+.opt:disabled{ cursor:default; }
+.opt.correct{ background:var(--success-soft); border-color:var(--success); }
+.opt.wrong{ background:var(--danger-soft); border-color:var(--danger); }
+.explain{
+  margin-top:10px; font-size:.85rem; color:var(--ink-soft); background:var(--paper-raised);
+  border-left:3px solid var(--online); padding:8px 12px; border-radius:6px; display:none; line-height:1.8;
+}
+.explain.show{ display:block; }
+
+/* ---------- Matching ---------- */
+.match-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+@media(max-width:620px){ .match-grid{ grid-template-columns:1fr; } }
+.match-col h4{ font-size:.8rem; color:var(--ink-soft); margin-bottom:10px; letter-spacing:.03em; }
+.pcard{
+  font-family:'Literata',serif; font-size:.82rem; line-height:1.6;
+  border:1.5px solid var(--line); border-radius:10px; padding:12px; margin-bottom:10px; cursor:pointer;
+  background:var(--paper-raised); position:relative;
+}
+.pcard b{ font-family:'IBM Plex Mono',monospace; }
+.pcard.selected{ border-color:var(--ink); box-shadow:0 0 0 2px color-mix(in srgb, var(--ink) 15%, transparent); }
+.pcard.correct{ border-color:var(--success); background:var(--success-soft); }
+.pcard.wrong{ border-color:var(--danger); background:var(--danger-soft); }
+.fchip{
+  font-size:.85rem; border:1.5px solid var(--line); border-radius:10px; padding:10px 12px;
+  margin-bottom:10px; cursor:pointer; background:var(--paper-raised); font-weight:700;
+}
+.fchip.used{ opacity:.45; cursor:default; }
+.fchip.selected{ border-color:var(--online); box-shadow:0 0 0 2px color-mix(in srgb, var(--online) 20%, transparent); }
+.badge-tag{
+  display:inline-flex; align-items:center; justify-content:center; margin-right:6px;
+  width:20px; height:20px; border-radius:50%; background:var(--ink); color:var(--paper);
+  font-family:'IBM Plex Mono',monospace; font-size:.68rem;
+}
+
+/* ---------- Buttons ---------- */
+.actions{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+.btn{
+  font-family:'Work Sans',sans-serif; font-weight:700; font-size:.88rem; border-radius:9px;
+  padding:11px 20px; cursor:pointer; border:1px solid var(--line); background:var(--paper-raised); color:var(--ink);
+  transition:background .15s, border-color .15s, transform .1s;
+}
+.btn:hover{ transform:translateY(-1px); }
+.btn:active{ transform:none; }
+.btn.primary{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.btn.f2f{ background:var(--f2f); border-color:var(--f2f); color:#fff; }
+.btn.online{ background:var(--online); border-color:var(--online); color:#fff; }
+.btn:disabled{ opacity:.4; cursor:not-allowed; transform:none; }
+.btn:focus-visible{ outline:2px solid var(--online); outline-offset:2px; }
+
+/* ---------- Results ---------- */
+.score-hero{ text-align:center; padding:20px 0 8px; }
+.score-num{ font-family:'IBM Plex Mono',monospace; font-size:3.2rem; font-weight:600; }
+.score-num span{ font-size:1.6rem; color:var(--ink-soft); }
+.score-msg{ font-size:1.05rem; font-weight:800; margin-top:6px; }
+.score-bar{ height:10px; border-radius:999px; background:var(--line); overflow:hidden; margin:18px 0; }
+.score-bar > i{ display:block; height:100%; background:linear-gradient(90deg, var(--f2f), var(--online)); border-radius:999px; transition:width .6s ease; }
+.recap{ display:flex; flex-direction:column; gap:10px; margin-top:20px; }
+.recap-row{ display:flex; justify-content:space-between; align-items:center; font-size:.85rem; padding:9px 12px; border:1px solid var(--line); border-radius:9px; gap:10px; }
+.recap-row span:first-child{ font-family:'Literata',serif; }
+.recap-row b{ font-family:'IBM Plex Mono',monospace; }
+.recap-row.ok{ border-color:var(--success); background:var(--success-soft); }
+.recap-row.bad{ border-color:var(--danger); background:var(--danger-soft); }
+
+footer{ text-align:center; color:var(--ink-soft); font-size:.75rem; margin-top:40px; line-height:1.8; }
+footer .credit{ display:block; font-family:'Work Sans',sans-serif; font-weight:800; font-size:1.05rem; color:var(--ink); margin-bottom:6px; }
+.confetti-wrap{ position:relative; height:0; overflow:visible; }
+.confetti{ position:absolute; top:0; font-size:1.3rem; animation:fall 2.6s ease-in forwards; }
+@keyframes fall{ from{ transform:translateY(-10px) rotate(0deg); opacity:1;} to{ transform:translateY(220px) rotate(300deg); opacity:0; } }
+@media (prefers-reduced-motion: reduce){ .confetti{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="credit-badge">✍️ Prepared by Abdulaziz Almehmadi</div>
+    <div class="eyebrow">
+      <span class="tag">Unit 1 · Connected by Technology</span>
+      <span class="tag">Lesson 10 · Writing &amp; Reading</span>
+    </div>
+    <h1>Face-to-Face or Online Learning? 🎓💻</h1>
+    <p>An interactive lesson built on the reading <em>Learning Face-to-Face and Online</em> — explore the differences, read the passage, and test your understanding across five quick stations.
+      <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="درس تفاعلي مبني على نص Learning Face-to-Face and Online — استكشف الفروقات، اقرأ النص، واختبر فهمك عبر خمس محطات قصيرة.">ع</button>
+    </p>
+    <div class="legend">
+      <span><i class="dot f2f"></i> Face-to-Face</span>
+      <span><i class="dot online"></i> Online</span>
+    </div>
+  </div>
+</div>
+
+<nav class="stepper" id="stepper"></nav>
+
+<main class="wrap">
+
+  <!-- STEP 1 : WARM-UP -->
+  <section class="panel" data-step="0">
+    <div class="card">
+      <div class="section-title"><span class="idx">01</span><h2>Warm-up: Two Worlds of Learning</h2></div>
+      <p class="hint">Before reading the text, sort each phrase into the right category: click a phrase, then click a zone to drop it there. This will help you picture the difference between the two learning styles.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="قبل قراءة النص، صنّف كل عبارة إلى الفئة المناسبة: انقر على العبارة، ثم انقر على المنطقة لوضعها فيها. سيساعدك هذا على تكوين صورة عن الفرق بين النمطين.">ع</button>
+      </p>
+
+      <div id="pool" class="pool"></div>
+
+      <div class="zones">
+        <div class="zone f2f">
+          <div class="zone-head"><i class="dot f2f"></i> Face-to-Face</div>
+          <div class="zone-body" id="zone-f2f"><span class="zone-empty">Click a phrase above, then click here to drop it</span></div>
+        </div>
+        <div class="zone online">
+          <div class="zone-head"><i class="dot online"></i> Online</div>
+          <div class="zone-body" id="zone-online"><span class="zone-empty">Click a phrase above, then click here to drop it</span></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="checkClassify">Check My Sorting</button>
+        <span id="classifyResult" class="save-note"></span>
+      </div>
+
+      <div class="reflect">
+        <div>
+          <div class="reflect-q">1. Do you know anyone who is studying online? Would you prefer to learn online? Why or why not?
+            <button class="sp-btn sp" type="button" data-en="Do you know anyone who is studying online? Would you prefer to learn online? Why or why not?">🔊</button>
+            <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="هل تعرف أحدًا يدرس عبر الإنترنت؟ هل تفضّل الدراسة عبر الإنترنت؟ ولماذا؟">ع</button>
+          </div>
+          <textarea data-ref="q1" placeholder="Write your answer here..."></textarea>
+        </div>
+        <div>
+          <div class="reflect-q">2. Do you prefer to communicate with your teacher and classmates face-to-face? Why or why not?
+            <button class="sp-btn sp" type="button" data-en="Do you prefer to communicate with your teacher and classmates face-to-face? Why or why not?">🔊</button>
+            <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="هل تفضّل التواصل مع معلمك وزملائك وجهًا لوجه؟ ولماذا؟">ع</button>
+          </div>
+          <textarea data-ref="q2" placeholder="Write your answer here..."></textarea>
+        </div>
+        <div>
+          <div class="reflect-q">3. In your opinion, what are the main differences between the two?
+            <button class="sp-btn sp" type="button" data-en="In your opinion, what are the main differences between the two?">🔊</button>
+            <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="في رأيك، ما هي الفروقات الرئيسية بين النمطين؟">ع</button>
+          </div>
+          <textarea data-ref="q3" placeholder="Write your answer here..."></textarea>
+        </div>
+        <span class="save-note" id="saveNote"></span>
+      </div>
+
+      <div class="actions">
+        <button class="btn online" onclick="goTo(1)">Next: Read the Text →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2 : READING -->
+  <section class="panel" data-step="1">
+    <div class="card">
+      <div class="section-title"><span class="idx">02</span><h2>Reading: Learning Face-to-Face and Online</h2></div>
+      <div class="meta-row">
+        <span class="meta-pill">⏱ ~2 min read</span>
+        <span class="meta-pill">4 paragraphs</span>
+        <button class="meta-pill" id="listenFull" type="button" style="cursor:pointer;">🔊 Listen to full text</button>
+        <span class="meta-pill">💡 Click underlined words to hear &amp; reveal their meaning
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="اضغط على الزر لسماع النص كاملًا، وانقر على الكلمات المنقّطة لسماعها ومعرفة معناها بالعربية.">ع</button>
+        </span>
+      </div>
+      <div class="passage">
+        <h3>Learning Face-to-Face and Online</h3>
+
+        <div class="para"><span class="pnum">1</span><button class="sp-btn sp" type="button" data-en="There have been significant changes in education due to technology. The Internet has played a determining role in transforming the face of education as we used to know it. More and more universities and colleges offer face-to-face and online course modes or blended versions that combine classroom face-to-face and email, social networking, or synchronous e-learning.">🔊</button><span class="ptext" id="ptext1">There have been significant changes in education due to technology. The Internet has played a determining role in transforming the face of education as we used to know it. More and more universities and colleges offer face-to-face and online course modes or <span class="gloss" tabindex="0" data-ar="مدمج: يجمع بين النمطين">blended</span> versions that combine classroom face-to-face and email, social networking, or <span class="gloss" tabindex="0" data-ar="متزامن: يحدث في الوقت نفسه">synchronous</span> e-learning.</span></div>
+
+        <div class="para"><span class="pnum">2</span><button class="sp-btn sp" type="button" data-en="Research has shown that students choose different options, depending on individual preferences, learning styles, and practical considerations. For example, working adult students prefer online courses as they offer the flexibility that they need to combine learning with work. In other words, individuals, whose time and or mobility are restricted, are happier with online courses.">🔊</button><span class="ptext" id="ptext2">Research has shown that students choose different options, depending on individual preferences, learning styles, and practical considerations. For example, working adult students prefer online courses as they offer the flexibility that they need to combine learning with work. In other words, individuals, whose time and/or mobility are restricted, are happier with online courses.</span></div>
+
+        <div class="para"><span class="pnum">3</span><button class="sp-btn sp" type="button" data-en="On the other hand, a large number of students enroll in face-to-face courses as they feel that face-to-face instruction and communication with peers will help them understand concepts better and learn more effectively. They are not opposed to using email or social networks to communicate with peers but not with their instructor. On the contrary, online students find it easier to communicate with instructors by email as it frees them of inhibitions they might have about asking questions or raising issues face-to-face.">🔊</button><span class="ptext" id="ptext3">On the other hand, a large number of students enroll in face-to-face courses as they feel that face-to-face instruction and communication with peers will help them understand concepts better and learn more effectively. They are not opposed to using email or social networks to communicate with peers but not with their instructor. On the contrary, online students find it easier to communicate with instructors by email as it frees them of <span class="gloss" tabindex="0" data-ar="حواجز نفسية أو تردد">inhibitions</span> they might have about asking questions or raising issues face-to-face.</span></div>
+
+        <div class="para"><span class="pnum">4</span><button class="sp-btn sp" type="button" data-en="Both groups defend their respective choice wholeheartedly. This is further demonstrated by success rates and learning outcomes. So, given a positive attitude to technology and the necessary skills, students will benefit from online courses as much as their counterparts in face-to-face contexts. What remains to be seen is if such courses will also benefit interpersonal skills and help people perform as members of a team.">🔊</button><span class="ptext" id="ptext4">Both groups defend their respective choice <span class="gloss" tabindex="0" data-ar="بكل حماس واقتناع">wholeheartedly</span>. This is further demonstrated by success rates and learning outcomes. So, given a positive attitude to technology and the necessary skills, students will benefit from online courses as much as their <span class="gloss" tabindex="0" data-ar="نظراؤهم / مقابلوهم">counterparts</span> in face-to-face contexts. What remains to be seen is if such courses will also benefit <span class="gloss" tabindex="0" data-ar="مهارات التواصل بين الأفراد">interpersonal</span> skills and help people perform as members of a team.</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(0)">← Previous</button>
+        <button class="btn online" onclick="goTo(2)">Next: Test Your Understanding →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3 : QUIZ -->
+  <section class="panel" data-step="2">
+    <div class="card">
+      <div class="section-title"><span class="idx">03</span><h2>Comprehension: Text Questions</h2></div>
+      <p class="hint">Read each question carefully and choose the answer that best matches the text.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="اقرأ كل سؤال بعناية واختر الإجابة الأقرب إلى النص.">ع</button>
+      </p>
+      <div id="quizList"></div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(1)">← Previous</button>
+        <button class="btn online" onclick="goTo(3)">Next: Match the Paragraphs →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 4 : MATCHING -->
+  <section class="panel" data-step="3">
+    <div class="card">
+      <div class="section-title"><span class="idx">04</span><h2>Paragraph Functions</h2></div>
+      <p class="hint">Click a paragraph number, then click the function that matches it, to pair them together.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="انقر على رقم الفقرة، ثم انقر على الوظيفة المناسبة لها لربطهما معًا.">ع</button>
+      </p>
+      <div class="match-grid">
+        <div class="match-col">
+          <h4>PARAGRAPHS</h4>
+          <div id="paraList"></div>
+        </div>
+        <div class="match-col">
+          <h4>FUNCTION</h4>
+          <div id="funcList"></div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="checkMatch">Check My Matching</button>
+        <span id="matchResult" class="save-note"></span>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(2)">← Previous</button>
+        <button class="btn online" onclick="showResults()">See Final Results →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5 : RESULTS -->
+  <section class="panel" data-step="4">
+    <div class="card">
+      <div class="section-title"><span class="idx">05</span><h2>Your Results</h2></div>
+      <div class="confetti-wrap" id="confettiWrap"></div>
+      <div class="score-hero">
+        <div class="score-num"><span id="scoreVal">0</span><span>/8</span></div>
+        <div class="score-bar"><i id="scoreBarFill" style="width:0%"></i></div>
+        <div class="score-msg" id="scoreMsg"></div>
+        <div id="scoreMsgTr"></div>
+      </div>
+      <div class="recap" id="recap"></div>
+      <div class="actions">
+        <button class="btn primary" onclick="resetAll()">Try Again From the Start</button>
+        <button class="btn" onclick="goTo(1)">Review the Text</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="credit">Prepared by Abdulaziz Almehmadi</span>
+  Based on the "Connected by Technology" unit — Lesson 10, Writing &amp; Reading · Built as an interactive review tool
+  <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="مبني على وحدة «متصلون بالتقنية» — الدرس العاشر، الكتابة والقراءة · صُمم كأداة مراجعة تفاعلية">ع</button>
+</footer>
+
+<div class="ar-tooltip" id="arTooltip" role="tooltip" dir="rtl"></div>
+
+<script>
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window) || !text) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.95;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function bindSp(root){
+  (root||document).querySelectorAll('.sp').forEach(el=>{
+    if(el._spBound) return;
+    el._spBound = true;
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); e.preventDefault(); speak(el.dataset.en || el.textContent); });
+  });
+}
+/* ---------------- Arabic translation tooltip ---------------- */
+const arTooltip = document.getElementById('arTooltip');
+let arTooltipTrigger = null;
+function positionArTooltip(trigger){
+  const rect = trigger.getBoundingClientRect();
+  const tw = arTooltip.offsetWidth, th = arTooltip.offsetHeight;
+  let left = rect.left + rect.width/2 - tw/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+  let top = rect.top - th - 10, above = true;
+  if(top < 8){ top = rect.bottom + 10; above = false; }
+  arTooltip.style.left = left + 'px';
+  arTooltip.style.top = top + 'px';
+  arTooltip.classList.toggle('above', above);
+  arTooltip.classList.toggle('below', !above);
+  const arrowLeft = Math.max(14, Math.min(rect.left + rect.width/2 - left, tw - 14));
+  arTooltip.style.setProperty('--arrow-left', arrowLeft + 'px');
+}
+function showArTooltip(trigger){
+  arTooltip.textContent = trigger.dataset.ar;
+  arTooltip.style.left = '-9999px';
+  arTooltip.classList.add('show');
+  if(trigger.classList.contains('ar-trigger')) trigger.setAttribute('aria-expanded','true');
+  arTooltipTrigger = trigger;
+  requestAnimationFrame(()=> positionArTooltip(trigger));
+}
+function hideArTooltip(){
+  arTooltip.classList.remove('show');
+  if(arTooltipTrigger && arTooltipTrigger.classList.contains('ar-trigger')) arTooltipTrigger.setAttribute('aria-expanded','false');
+  arTooltipTrigger = null;
+}
+function bindArTriggers(root){
+  (root||document).querySelectorAll('.gloss, .ar-trigger').forEach(el=>{
+    if(el._arBound) return;
+    el._arBound = true;
+    if(el.classList.contains('ar-trigger')) el.setAttribute('aria-expanded','false');
+    el.addEventListener('click', (e)=>{
+      e.stopPropagation(); e.preventDefault();
+      if(el.classList.contains('gloss')) speak(el.textContent);
+      if(arTooltipTrigger === el){ hideArTooltip(); return; }
+      showArTooltip(el);
+    });
+  });
+}
+document.addEventListener('click', hideArTooltip);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideArTooltip(); });
+window.addEventListener('scroll', hideArTooltip, true);
+window.addEventListener('resize', hideArTooltip);
+document.getElementById('listenFull').addEventListener('click', ()=>{
+  const full = ['ptext1','ptext2','ptext3','ptext4'].map(id=>document.getElementById(id).textContent).join(' ');
+  speak(full);
+});
+
+const steps = ["Warm-up","Reading","Comprehension","Matching","Results"];
+let current = 0;
+let furthest = 0;
+
+const stepperEl = document.getElementById('stepper');
+const stepperInner = document.createElement('div');
+stepperInner.className = 'stepper-inner';
+steps.forEach((label,i)=>{
+  const b = document.createElement('button');
+  b.className = 'step-btn';
+  b.innerHTML = `<span class="num">${i+1}</span><span class="lbl">${label}</span>`;
+  b.addEventListener('click',()=>goTo(i));
+  stepperInner.appendChild(b);
+});
+stepperEl.appendChild(stepperInner);
+
+function renderStepper(){
+  [...stepperInner.children].forEach((b,i)=>{
+    b.classList.toggle('active', i===current);
+    b.classList.toggle('done', i<current || i<furthest);
+  });
+}
+function goTo(i){
+  current = i;
+  furthest = Math.max(furthest,i);
+  hideArTooltip();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', +p.dataset.step===i));
+  renderStepper();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------------- Warm-up classify game ---------------- */
+const classifyItems = [
+  {id:1, text:"Classroom discussion", ar:"مناقشة داخل الصف", cat:"f2f"},
+  {id:2, text:"A video lecture watched at home", ar:"محاضرة مسجّلة تُشاهد في المنزل", cat:"online"},
+  {id:3, text:"Raising your hand in class", ar:"رفع يدك داخل الصف", cat:"f2f"},
+  {id:4, text:"Emailing your instructor", ar:"مراسلة الأستاذ بالبريد الإلكتروني", cat:"online"},
+  {id:5, text:"Reading classmates' body language", ar:"قراءة لغة جسد الزملاء", cat:"f2f"},
+  {id:6, text:"A flexible study schedule", ar:"جدول دراسي مرن", cat:"online"},
+  {id:7, text:"A written exam in a hall", ar:"اختبار تحريري في قاعة", cat:"f2f"},
+  {id:8, text:"Joining a discussion forum", ar:"المشاركة في منتدى نقاش", cat:"online"},
+];
+let placements = {}; // id -> 'f2f'|'online'|null
+
+function renderClassify(){
+  const pool = document.getElementById('pool');
+  const zf = document.getElementById('zone-f2f');
+  const zo = document.getElementById('zone-online');
+  pool.innerHTML = ''; zf.innerHTML=''; zo.innerHTML='';
+  let f2fCount=0, onlineCount=0;
+  classifyItems.forEach(item=>{
+    const chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.type = 'button';
+    chip.innerHTML = `${item.text} <span class="sp-btn sp" data-en="${item.text}">🔊</span><span class="ar-trigger" tabindex="0" role="button" aria-label="Show Arabic translation" data-ar="${item.ar}">ع</span>`;
+    const place = placements[item.id];
+    chip.addEventListener('click', ()=> onChipClick(item.id));
+    if(!place){
+      pool.appendChild(chip);
+    } else {
+      chip.classList.add('placed', place);
+      if(place==='f2f'){ zf.appendChild(chip); f2fCount++; } else { zo.appendChild(chip); onlineCount++; }
+    }
+    if(item._mark){ chip.classList.add(item._mark); }
+  });
+  if(f2fCount===0) zf.innerHTML = '<span class="zone-empty">Click a phrase above, then click here to drop it</span>';
+  if(onlineCount===0) zo.innerHTML = '<span class="zone-empty">Click a phrase above, then click here to drop it</span>';
+  bindSp(pool); bindSp(zf); bindSp(zo);
+  bindArTriggers(pool); bindArTriggers(zf); bindArTriggers(zo);
+}
+function onChipClick(id){
+  const cur = placements[id];
+  if(!cur){ placements[id] = 'f2f'; }
+  else if(cur==='f2f'){ placements[id] = 'online'; }
+  else { placements[id] = null; }
+  document.getElementById('classifyResult').textContent = '';
+  classifyItems.forEach(it=>delete it._mark);
+  renderClassify();
+}
+document.getElementById('checkClassify').addEventListener('click', ()=>{
+  let correct = 0;
+  classifyItems.forEach(it=>{
+    it._mark = placements[it.id]===it.cat ? 'correct' : (placements[it.id] ? 'wrong' : null);
+    if(placements[it.id]===it.cat) correct++;
+  });
+  renderClassify();
+  document.getElementById('classifyResult').textContent = `${correct} out of ${classifyItems.length} correct ✓`;
+});
+renderClassify();
+
+/* ---------------- Reflection auto-save ---------------- */
+const REF_KEY = 'ffol_reflection_v2';
+function loadReflection(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(REF_KEY) || '{}');
+    document.querySelectorAll('[data-ref]').forEach(t=>{ if(saved[t.dataset.ref]) t.value = saved[t.dataset.ref]; });
+  }catch(e){}
+}
+function saveReflection(){
+  try{
+    const data = {};
+    document.querySelectorAll('[data-ref]').forEach(t=>{ data[t.dataset.ref] = t.value; });
+    localStorage.setItem(REF_KEY, JSON.stringify(data));
+    const note = document.getElementById('saveNote');
+    note.textContent = 'Saved ✓';
+    clearTimeout(window._sn); window._sn = setTimeout(()=>note.textContent='',1500);
+  }catch(e){}
+}
+document.querySelectorAll('[data-ref]').forEach(t=> t.addEventListener('input', saveReflection));
+loadReflection();
+
+/* ---------------- Quiz ---------------- */
+const quiz = [
+  { q:"What is the trend for university courses?",
+    opts:[
+      "More and more universities offer face-to-face, online, or blended course modes.",
+      "All universities have completely stopped offering face-to-face courses.",
+      "Universities only accept students who already have laptops."
+    ], correct:0,
+    explain:"Paragraph 1 explains that more and more universities now offer face-to-face, online, or blended course modes.",
+    explainAr:"توضح الفقرة الأولى أن جامعات أكثر فأكثر تقدّم أنماطاً متعددة: وجهاً لوجه، عبر الإنترنت، أو مدمجة." },
+  { q:"What kinds of students opt for online courses?",
+    opts:[
+      "Only students who dislike using computers.",
+      "Working adult students, and those whose time or mobility is restricted.",
+      "Students who live inside the university campus."
+    ], correct:1,
+    explain:"Paragraph 2 shows that working adults, and students with limited time or mobility, prefer online courses.",
+    explainAr:"توضح الفقرة الثانية أن الطلاب العاملين، وأصحاب الوقت أو التنقل المحدود، يفضّلون الدراسة عبر الإنترنت." },
+  { q:"Why do some students enroll in face-to-face courses?",
+    opts:[
+      "Because online courses cost more money.",
+      "Because face-to-face courses have no exams at all.",
+      "Because face-to-face instruction and peer interaction help them understand concepts better."
+    ], correct:2,
+    explain:"Paragraph 3 explains that direct contact with the teacher and classmates helps these students understand and learn more effectively.",
+    explainAr:"توضح الفقرة الثالثة أن التواصل المباشر مع المعلم والزملاء يساعد هؤلاء الطلاب على الفهم والتعلّم بفعالية أكبر." },
+  { q:"Which type of course is more successful?",
+    opts:[
+      "Face-to-face courses are always better.",
+      "Online courses are always better.",
+      "Both can be equally successful — it depends on students' attitude toward technology and their skills."
+    ], correct:2,
+    explain:"The final paragraph confirms that both course types can be equally successful, depending on students' attitude toward technology and their skills.",
+    explainAr:"تؤكد الفقرة الأخيرة أن كلا النمطين يمكن أن ينجح بنفس القدر، بحسب موقف الطالب من التقنية ومهاراته." },
+];
+let quizScore = 0;
+const quizAnswered = new Array(quiz.length).fill(false);
+
+function renderQuiz(){
+  const list = document.getElementById('quizList');
+  list.innerHTML = '';
+  quiz.forEach((item, qi)=>{
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.innerHTML = `
+      <div class="qtext">${qi+1}. ${item.q} <button class="sp-btn sp" type="button" data-en="${item.q}">🔊</button></div>
+      <div class="opts"></div>
+      <div class="explain"></div>
+    `;
+    const optsWrap = card.querySelector('.opts');
+    item.opts.forEach((optText, oi)=>{
+      const b = document.createElement('button');
+      b.type='button'; b.className='opt';
+      b.innerHTML = `<span class="sp-btn sp" data-en="${optText.replace(/"/g,'&quot;')}">🔊</span> ${optText}`;
+      b.addEventListener('click', ()=>{
+        if(quizAnswered[qi]) return;
+        quizAnswered[qi] = true;
+        [...optsWrap.children].forEach((el,idx2)=>{
+          el.disabled = true;
+          if(idx2===item.correct) el.classList.add('correct');
+          else if(idx2===oi) el.classList.add('wrong');
+        });
+        if(oi===item.correct) quizScore++;
+        const ex = card.querySelector('.explain');
+        ex.classList.add('show');
+        ex.innerHTML = `<div>${item.explain} <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="${item.explainAr}">ع</button></div>`;
+        bindArTriggers(ex);
+      });
+      optsWrap.appendChild(b);
+      bindSp(b);
+    });
+    bindSp(card);
+    list.appendChild(card);
+  });
+}
+renderQuiz();
+
+/* ---------------- Matching ---------------- */
+const paragraphs = [
+  {n:1, text:"“There have been significant changes in education due to technology…more and more universities and colleges offer face-to-face and online course modes…”", func:0},
+  {n:2, text:"“Research has shown that students choose different options…working adult students prefer online courses as they offer the flexibility…”", func:2},
+  {n:3, text:"“…a large number of students enroll in face-to-face courses as they feel that face-to-face instruction and communication with peers will help them understand concepts better…”", func:1},
+  {n:4, text:"“Both groups defend their respective choice wholeheartedly…What remains to be seen is if such courses will also benefit interpersonal skills…”", func:3},
+];
+const functions = [
+  "Sets the scene and introduces the topic",
+  "Presents information about face-to-face courses",
+  "Presents information about online courses",
+  "Rounds up the issues discussed",
+];
+let funcOrder = [1,3,0,2]; // shuffled display order (indices into functions)
+let pairs = {}; // paraNum -> funcIndex chosen
+let selectedPara = null;
+
+function renderMatch(){
+  const pl = document.getElementById('paraList');
+  const fl = document.getElementById('funcList');
+  pl.innerHTML=''; fl.innerHTML='';
+  paragraphs.forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'pcard';
+    if(selectedPara===p.n) el.classList.add('selected');
+    if(p._mark) el.classList.add(p._mark);
+    const pairedIdx = pairs[p.n];
+    el.innerHTML = `<b>¶${p.n}</b> ${p.text}` + (pairedIdx!==undefined ? `<div style="margin-top:8px;"><span class="badge-tag">${p.n}</span><span style="font-size:.78rem;color:var(--ink-soft)">${functions[pairedIdx]}</span></div>` : '');
+    el.addEventListener('click', ()=>{ selectedPara = (selectedPara===p.n)?null:p.n; renderMatch(); });
+    pl.appendChild(el);
+  });
+  const usedFuncs = new Set(Object.values(pairs));
+  funcOrder.forEach(fi=>{
+    const el = document.createElement('div');
+    el.className = 'fchip';
+    el.textContent = functions[fi];
+    if(usedFuncs.has(fi)) el.classList.add('used');
+    el.addEventListener('click', ()=>{
+      if(selectedPara===null) return;
+      pairs[selectedPara] = fi;
+      selectedPara = null;
+      document.getElementById('matchResult').textContent = '';
+      paragraphs.forEach(p=>delete p._mark);
+      renderMatch();
+    });
+    fl.appendChild(el);
+  });
+}
+renderMatch();
+document.getElementById('checkMatch').addEventListener('click', ()=>{
+  let correct = 0;
+  paragraphs.forEach(p=>{
+    p._mark = pairs[p.n]===p.func ? 'correct' : (pairs[p.n]!==undefined ? 'wrong' : null);
+    if(pairs[p.n]===p.func) correct++;
+  });
+  renderMatch();
+  document.getElementById('matchResult').textContent = `${correct} out of 4 correct ✓`;
+});
+
+/* ---------------- Results ---------------- */
+function showResults(){
+  const matchScore = paragraphs.filter(p=>pairs[p.n]===p.func).length;
+  const total = quizScore + matchScore;
+  goTo(4);
+  document.getElementById('scoreVal').textContent = total;
+  document.getElementById('scoreBarFill').style.width = (total/8*100)+'%';
+  let msg, msgAr;
+  if(total===8){ msg='🎉 Excellent! Full understanding of the text'; msgAr='ممتاز! فهم كامل للنص'; }
+  else if(total>=6){ msg='👏 Very good work'; msgAr='عمل جيد جدًا'; }
+  else if(total>=4){ msg='🙂 Good — review the text once more'; msgAr='جيد، راجع النص مرة أخرى'; }
+  else { msg='📖 We recommend reading the text again carefully'; msgAr='يُنصح بإعادة قراءة النص بتمعّن'; }
+  document.getElementById('scoreMsg').textContent = msg;
+  const msgTr = document.getElementById('scoreMsgTr');
+  msgTr.innerHTML = `<button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="${msgAr}">ع</button>`;
+  bindArTriggers(msgTr);
+
+  const recap = document.getElementById('recap');
+  recap.innerHTML = '';
+  quiz.forEach((item,qi)=>{
+    const answeredCorrect = quizAnswered[qi] && document.querySelectorAll('#quizList .qcard')[qi].querySelector('.opt.wrong')===null;
+    const row = document.createElement('div');
+    row.className = 'recap-row ' + (answeredCorrect ? 'ok':'bad');
+    row.innerHTML = `<span>Q${qi+1}: ${item.q}</span><b>${answeredCorrect?'✓':'✗'}</b>`;
+    recap.appendChild(row);
+  });
+  paragraphs.forEach(p=>{
+    const ok = pairs[p.n]===p.func;
+    const row = document.createElement('div');
+    row.className = 'recap-row ' + (ok?'ok':'bad');
+    row.innerHTML = `<span>Paragraph ${p.n} matching</span><b>${ok?'✓':'✗'}</b>`;
+    recap.appendChild(row);
+  });
+
+  if(total>=6 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const wrap = document.getElementById('confettiWrap');
+    wrap.innerHTML='';
+    const emojis=['🎉','✨','📚','🎓','💡'];
+    for(let i=0;i<16;i++){
+      const s=document.createElement('span');
+      s.className='confetti';
+      s.textContent = emojis[i%emojis.length];
+      s.style.left = (Math.random()*95)+'%';
+      s.style.animationDelay = (Math.random()*0.6)+'s';
+      wrap.appendChild(s);
+    }
+  }
+}
+
+function resetAll(){
+  placements = {}; classifyItems.forEach(it=>delete it._mark);
+  quizScore = 0; quizAnswered.fill(false);
+  pairs = {}; selectedPara = null; paragraphs.forEach(p=>delete p._mark);
+  renderClassify(); renderQuiz(); renderMatch();
+  document.getElementById('classifyResult').textContent='';
+  document.getElementById('matchResult').textContent='';
+  goTo(0);
+}
+
+bindArTriggers(document);
+bindSp(document);
+renderStepper();
+goTo(0);
+</script>
+</body>
+</html>

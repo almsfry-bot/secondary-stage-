@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auxiliary Verbs: do, have, be</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Literata:ital,opsz,wght@0,18..144,400;0,18..144,500;0,18..144,600;1,18..144,500&family=IBM+Plex+Mono:wght@500;600&family=Work+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --paper:#eef1f6;
+  --paper-raised:#ffffff;
+  --ink:#1c222b;
+  --ink-soft:#59626f;
+  --line:#d9dee6;
+  --f2f:#c8703f;
+  --f2f-soft:#f3ddc9;
+  --f2f-ink:#7a3f1e;
+  --online:#2563a6;
+  --online-soft:#d7e6f4;
+  --online-ink:#153f66;
+  --success:#2f8f5b;
+  --success-soft:#dcf1e4;
+  --danger:#c14444;
+  --danger-soft:#f8dede;
+  --tooltip-bg:#1c2530;
+  --tooltip-fg:#f4f6f9;
+  --shadow: 0 1px 2px rgba(28,34,43,.06), 0 8px 24px -12px rgba(28,34,43,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11151b;
+    --paper-raised:#1a2029;
+    --ink:#eceff3;
+    --ink-soft:#9aa5b4;
+    --line:#2b3340;
+    --f2f:#e08a57;
+    --f2f-soft:#3a2a1e;
+    --f2f-ink:#f0c19c;
+    --online:#69aee0;
+    --online-soft:#1c2c3c;
+    --online-ink:#bcdcf6;
+    --success:#59c98a;
+    --success-soft:#153a26;
+    --danger:#e07a7a;
+    --danger-soft:#3a1e1e;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11151b;
+  --paper-raised:#1a2029;
+  --ink:#eceff3;
+  --ink-soft:#9aa5b4;
+  --line:#2b3340;
+  --f2f:#e08a57;
+  --f2f-soft:#3a2a1e;
+  --f2f-ink:#f0c19c;
+  --online:#69aee0;
+  --online-soft:#1c2c3c;
+  --online-ink:#bcdcf6;
+  --success:#59c98a;
+  --success-soft:#153a26;
+  --danger:#e07a7a;
+  --danger-soft:#3a1e1e;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{color-scheme:light dark}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Work Sans',system-ui,sans-serif;
+  direction:ltr;
+}
+h1,h2,h3{ text-wrap:balance; margin:0; }
+.wrap{ max-width:900px; margin:0 auto; padding:0 20px 80px; }
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative; overflow:hidden;
+  background: linear-gradient(80deg, var(--f2f-soft) 0 46%, transparent 46% 54%, var(--online-soft) 54% 100%);
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{ max-width:900px; margin:0 auto; padding:34px 20px 26px; position:relative; z-index:1; }
+.eyebrow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:.78rem; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:10px; }
+.eyebrow .tag{ font-family:'IBM Plex Mono',monospace; background:var(--paper-raised); border:1px solid var(--line); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--ink-soft); }
+.hero h1{ font-size:clamp(1.6rem,4.2vw,2.3rem); font-weight:800; line-height:1.25; }
+.hero p{ color:var(--ink-soft); margin-top:10px; max-width:64ch; line-height:1.9; font-size:.95rem;}
+.hero p em{ color:var(--ink); font-style:italic; }
+.legend{ display:flex; gap:18px; margin-top:18px; flex-wrap:wrap; }
+.legend span{ display:flex; align-items:center; gap:7px; font-size:.85rem; font-weight:700; }
+.dot{ width:11px; height:11px; border-radius:50%; display:inline-block; flex:none; }
+.dot.f2f{ background:var(--f2f); }
+.dot.online{ background:var(--online); }
+.credit-badge{
+  display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-weight:700;
+  font-size:.85rem; letter-spacing:.02em; color:var(--online-ink); background:var(--online-soft);
+  border:1px solid var(--online); border-radius:999px; padding:5px 16px; margin-bottom:14px;
+}
+
+/* ---------- Stepper ---------- */
+.stepper{ position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+.stepper-inner{ max-width:900px; margin:0 auto; padding:12px 20px; display:flex; justify-content:space-between; gap:4px; }
+.step-btn{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:none; cursor:pointer; color:var(--ink-soft); font-family:inherit; padding:4px 2px; position:relative; }
+.step-btn .num{ width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:.8rem; font-weight:600; border:1.5px solid var(--line); background:var(--paper-raised); color:var(--ink-soft); transition:background .15s,border-color .15s,color .15s; }
+.step-btn .lbl{ font-size:.68rem; font-weight:700; }
+.step-btn.active .num{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.step-btn.active .lbl{ color:var(--ink); }
+.step-btn.done .num{ background:var(--success); border-color:var(--success); color:#fff; }
+.step-btn:focus-visible{ outline:2px solid var(--online); outline-offset:2px; border-radius:8px; }
+
+/* ---------- Panels / cards ---------- */
+.panel{ display:none; padding-top:26px; animation:fadeUp .35s ease both; }
+.panel.active{ display:block; }
+@media (prefers-reduced-motion: reduce){ .panel{ animation:none; } }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+.card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:22px; box-shadow:var(--shadow); }
+.section-title{ display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+.section-title .idx{ font-family:'IBM Plex Mono',monospace; color:var(--ink-soft); font-size:.85rem; }
+.section-title h2{ font-size:1.3rem; font-weight:800; }
+.hint{ color:var(--ink-soft); font-size:.9rem; line-height:1.8; margin:10px 0 20px; }
+
+/* ---------- Audio button ---------- */
+.sp-btn{ display:inline-flex; align-items:center; gap:3px; font-family:'Work Sans',sans-serif; font-size:.68rem; font-weight:700; color:var(--f2f-ink); background:var(--f2f-soft); border:1px solid var(--f2f); border-radius:999px; padding:2px 8px; cursor:pointer; vertical-align:middle; margin-left:6px; line-height:1.5; flex:none; }
+.sp-btn:hover{ filter:brightness(0.97); }
+.sp-btn:focus-visible{ outline:2px solid var(--f2f); outline-offset:2px; }
+
+/* ---------- Arabic translation tooltip ---------- */
+.ar-trigger{ display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px; border-radius:50%; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft); font-family:'Almarai',sans-serif; font-weight:800; font-size:.72rem; line-height:1; cursor:pointer; vertical-align:middle; margin-left:6px; flex:none; transition:background .15s,border-color .15s,color .15s; }
+.ar-trigger:hover{ border-color:var(--online); color:var(--online); background:var(--online-soft); }
+.ar-trigger:focus-visible{ outline:2px solid var(--online); outline-offset:2px; }
+.ar-trigger[aria-expanded="true"]{ background:var(--online); border-color:var(--online); color:#fff; }
+.ar-tooltip{ position:fixed; z-index:80; max-width:min(320px, calc(100vw - 24px)); box-sizing:border-box; background:var(--tooltip-bg); color:var(--tooltip-fg); font-family:'Almarai',sans-serif; direction:rtl; text-align:right; font-size:.86rem; line-height:1.85; padding:11px 15px; border-radius:10px; box-shadow:0 16px 32px -12px rgba(0,0,0,.4); opacity:0; transform:translateY(4px) scale(.97); pointer-events:none; transition:opacity .14s ease, transform .14s ease; }
+.ar-tooltip.show{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.ar-tooltip::after{ content:''; position:absolute; left:var(--arrow-left,50%); width:11px; height:11px; background:var(--tooltip-bg); transform:translateX(-50%) rotate(45deg); }
+.ar-tooltip.above::after{ bottom:-5px; }
+.ar-tooltip.below::after{ top:-5px; }
+@media (prefers-reduced-motion: reduce){ .ar-tooltip{ transition:none; } }
+
+/* ---------- Learn: rule blocks ---------- */
+.rule-block{ margin-bottom:24px; }
+.rule-block:last-child{ margin-bottom:0; }
+.rule-block h3{ font-size:1.05rem; font-weight:800; margin-bottom:2px; }
+.rule-block h3 i{ font-style:italic; color:var(--online-ink); font-family:'Literata',serif; }
+.rule-desc{ color:var(--ink-soft); font-size:.88rem; margin:0 0 10px; line-height:1.8; }
+.example-list{ display:flex; flex-direction:column; gap:8px; }
+.example{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; border:1px solid var(--line); border-radius:8px; padding:9px 12px; background:var(--paper); font-family:'Literata',serif; font-size:.92rem; }
+.example .ex-text{ flex:1; line-height:1.75; }
+.example .ans{ color:var(--ink-soft); }
+.example b{ color:var(--online-ink); }
+
+/* ---------- Pronoun reference table & structure groups ---------- */
+.sub-heading{ font-size:1.05rem; font-weight:800; margin:18px 0 8px; display:flex; align-items:center; }
+.table-wrap{ overflow-x:auto; margin:0 0 6px; border-radius:10px; border:1px solid var(--line); }
+.pronoun-table{ width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:.85rem; min-width:520px; }
+.pronoun-table th, .pronoun-table td{ border-bottom:1px solid var(--line); border-right:1px solid var(--line); padding:9px 10px; text-align:center; font-variant-numeric:tabular-nums; }
+.pronoun-table th:last-child, .pronoun-table td:last-child{ border-right:none; }
+.pronoun-table thead th{ background:var(--paper); color:var(--ink-soft); font-weight:700; font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; }
+.pronoun-table tbody td:first-child{ font-family:'Work Sans',sans-serif; font-weight:800; text-align:left; color:var(--online-ink); background:var(--online-soft); }
+.pronoun-table tbody tr:last-child td{ border-bottom:none; }
+.struct-group{ margin-bottom:18px; border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--paper); }
+.struct-group:last-of-type{ margin-bottom:0; }
+.struct-group-head{ display:flex; align-items:center; gap:6px; margin-bottom:10px; }
+.struct-group h4{ font-size:.98rem; font-weight:800; }
+.struct-row{ display:flex; align-items:flex-start; gap:12px; padding:9px 0; border-top:1px dashed var(--line); }
+.struct-row:first-of-type{ border-top:none; padding-top:2px; }
+.struct-tag{ flex:none; width:98px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:.66rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; border-radius:999px; padding:4px 0; margin-top:2px; }
+.struct-tag.aff{ background:var(--success-soft); color:var(--success); }
+.struct-tag.neg{ background:var(--danger-soft); color:var(--danger); }
+.struct-tag.q{ background:var(--online-soft); color:var(--online-ink); }
+.struct-body{ flex:1; min-width:0; }
+.struct-formula{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--ink-soft); margin-bottom:3px; }
+.struct-example{ font-family:'Literata',serif; font-size:.94rem; }
+
+/* ---------- Word-click exercise (A) ---------- */
+.word-row{ font-family:'Literata',serif; font-size:1rem; line-height:2.1; margin-bottom:12px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--paper); display:flex; align-items:flex-start; gap:8px; }
+.word-row .num{ font-family:'IBM Plex Mono',monospace; color:var(--ink-soft); font-size:.85rem; flex:none; margin-top:2px; }
+.word-row .tokens{ flex:1; }
+.word-token{ display:inline-block; border:1px solid transparent; border-radius:6px; padding:1px 4px; margin:0 1px; cursor:pointer; background:none; font:inherit; color:inherit; }
+.word-token:hover:not(:disabled){ background:var(--online-soft); }
+.word-token:disabled{ cursor:default; }
+.word-token.correct{ background:var(--success-soft); border-color:var(--success); font-weight:800; }
+.word-token.wrong{ background:var(--danger-soft); border-color:var(--danger); text-decoration:line-through; }
+.live-score{ font-family:'IBM Plex Mono',monospace; font-weight:700; color:var(--online-ink); font-size:.9rem; }
+
+/* ---------- Quiz (B) ---------- */
+.qcard{ border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:16px; background:var(--paper); }
+.qcard .qtext{ font-family:'Literata',serif; font-size:1rem; font-weight:500; margin-bottom:12px; line-height:1.6; }
+.opts{ display:flex; flex-direction:column; gap:8px; }
+.opt{ font-family:'Literata',serif; font-size:.92rem; border:1px solid var(--line); background:var(--paper-raised); border-radius:10px; padding:10px 14px; cursor:pointer; transition:background .15s,border-color .15s; text-align:left; }
+.opt:hover:not(:disabled){ border-color:var(--online); }
+.opt:disabled{ cursor:default; }
+.opt.correct{ background:var(--success-soft); border-color:var(--success); }
+.opt.wrong{ background:var(--danger-soft); border-color:var(--danger); }
+.explain{ margin-top:10px; font-size:.85rem; color:var(--ink-soft); background:var(--paper-raised); border-left:3px solid var(--online); padding:8px 12px; border-radius:6px; display:none; line-height:1.8; }
+.explain.show{ display:block; }
+
+/* ---------- Dialogue fill-in (C) ---------- */
+.dialogue{ display:flex; flex-direction:column; gap:14px; }
+.dialogue-line{ font-family:'Literata',serif; font-size:.98rem; line-height:2.3; border:1px solid var(--line); border-radius:10px; padding:10px 14px; background:var(--paper); }
+.dialogue-line .who{ font-weight:800; font-family:'Work Sans',sans-serif; color:var(--online-ink); font-style:normal; }
+.blank-choice{ display:inline-flex; gap:4px; margin:0 4px; vertical-align:middle; }
+.blank-btn{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; font-weight:700; border:1.5px solid var(--line); background:var(--paper-raised); border-radius:6px; padding:3px 9px; cursor:pointer; color:var(--ink); }
+.blank-btn:hover:not(:disabled){ border-color:var(--online); }
+.blank-btn.correct{ background:var(--success-soft); border-color:var(--success); }
+.blank-btn.wrong{ background:var(--danger-soft); border-color:var(--danger); }
+.blank-btn:disabled{ cursor:default; }
+
+/* ---------- Writing (D) ---------- */
+.guide-list{ display:flex; flex-direction:column; gap:8px; margin:14px 0 18px; }
+.guide-item{ display:flex; align-items:center; gap:6px; font-size:.92rem; border:1px solid var(--line); border-radius:8px; padding:8px 12px; background:var(--paper); }
+.guide-item .bullet{ color:var(--online); font-weight:800; }
+textarea{ width:100%; min-height:140px; resize:vertical; font-family:'Literata',serif; font-size:.95rem; border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:var(--paper); color:var(--ink); }
+textarea:focus-visible{ outline:2px solid var(--online); outline-offset:1px; }
+.save-note{ font-size:.75rem; color:var(--success); font-family:'IBM Plex Mono',monospace; min-height:1em; }
+
+/* ---------- Buttons ---------- */
+.actions{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; align-items:center; }
+.btn{ font-family:'Work Sans',sans-serif; font-weight:700; font-size:.88rem; border-radius:9px; padding:11px 20px; cursor:pointer; border:1px solid var(--line); background:var(--paper-raised); color:var(--ink); transition:background .15s, border-color .15s, transform .1s; }
+.btn:hover{ transform:translateY(-1px); }
+.btn:active{ transform:none; }
+.btn.primary{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.btn.online{ background:var(--online); border-color:var(--online); color:#fff; }
+.btn:disabled{ opacity:.4; cursor:not-allowed; transform:none; }
+.btn:focus-visible{ outline:2px solid var(--online); outline-offset:2px; }
+
+/* ---------- Results ---------- */
+.score-hero{ text-align:center; padding:20px 0 8px; }
+.score-num{ font-family:'IBM Plex Mono',monospace; font-size:3.2rem; font-weight:600; }
+.score-num span{ font-size:1.6rem; color:var(--ink-soft); }
+.score-msg{ font-size:1.05rem; font-weight:800; margin-top:6px; }
+.score-bar{ height:10px; border-radius:999px; background:var(--line); overflow:hidden; margin:18px 0; }
+.score-bar > i{ display:block; height:100%; background:linear-gradient(90deg, var(--f2f), var(--online)); border-radius:999px; transition:width .6s ease; }
+.recap{ display:flex; flex-direction:column; gap:10px; margin-top:20px; }
+.recap-row{ display:flex; justify-content:space-between; align-items:center; font-size:.85rem; padding:9px 12px; border:1px solid var(--line); border-radius:9px; gap:10px; }
+.recap-row b{ font-family:'IBM Plex Mono',monospace; }
+.recap-row.ok{ border-color:var(--success); background:var(--success-soft); }
+.recap-row.bad{ border-color:var(--danger); background:var(--danger-soft); }
+.recap-row.neutral{ border-color:var(--online); background:var(--online-soft); }
+
+footer{ text-align:center; color:var(--ink-soft); font-size:.75rem; margin-top:40px; line-height:1.8; }
+footer .credit{ display:block; font-family:'Work Sans',sans-serif; font-weight:800; font-size:1.05rem; color:var(--ink); margin-bottom:6px; }
+.confetti-wrap{ position:relative; height:0; overflow:visible; }
+.confetti{ position:absolute; top:0; font-size:1.3rem; animation:fall 2.6s ease-in forwards; }
+@keyframes fall{ from{ transform:translateY(-10px) rotate(0deg); opacity:1;} to{ transform:translateY(220px) rotate(300deg); opacity:0; } }
+@media (prefers-reduced-motion: reduce){ .confetti{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="credit-badge">✍️ Prepared by Abdulaziz Almehmadi</div>
+    <div class="eyebrow">
+      <span class="tag">Unit 1 · Connected by Technology</span>
+      <span class="tag">Lesson 3 · Grammar</span>
+    </div>
+    <h1>Auxiliary Verbs: do, have, be</h1>
+    <p>An interactive grammar lesson on auxiliary verbs — learn the rules, then practise spotting, forming, and completing sentences with <em>do</em>, <em>have</em>, and <em>be</em> across five quick stations.
+      <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="درس تفاعلي في القواعد عن الأفعال المساعدة — تعلّم القاعدة، ثم تدرّب على تمييزها وتكوينها واستكمال الجمل بها عبر خمس محطات قصيرة.">ع</button>
+    </p>
+    <div class="legend">
+      <span><i class="dot f2f"></i> Rule &amp; examples</span>
+      <span><i class="dot online"></i> Practice &amp; feedback</span>
+    </div>
+  </div>
+</div>
+
+<nav class="stepper" id="stepper"></nav>
+
+<main class="wrap">
+
+  <!-- STEP 0 : LEARN -->
+  <section class="panel" data-step="0">
+    <div class="card">
+      <div class="section-title"><span class="idx">01</span><h2>Learn: Auxiliary Verbs</h2></div>
+      <p class="hint">Auxiliary verbs work together with main verbs. The most common auxiliary verbs are <b>do</b>, <b>have</b>, and <b>be</b>.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="الأفعال المساعدة تعمل مع الفعل الرئيسي. أكثر الأفعال المساعدة استخدامًا هي do و have و be.">ع</button>
+      </p>
+
+      <div class="rule-block">
+        <h3>Use <i>do</i>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="استخدم do مع الجمل والأسئلة المنفية، ومع الإجابات القصيرة المثبتة والمنفية.">ع</button>
+        </h3>
+        <p class="rule-desc">with negative statements and questions and with affirmative and negative short answers.</p>
+        <div class="example-list">
+          <div class="example"><span class="ex-text">She <b>doesn't</b> like social networking websites.</span><button class="sp-btn sp" type="button" data-en="She doesn't like social networking websites.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Do</b> you send lots of text messages? <span class="ans">Yes, I <b>do</b>. / No, I <b>don't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Do you send lots of text messages? Yes, I do. No, I don't.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Did</b> Thomas answer your email? <span class="ans">Yes, he <b>did</b>. / No, he <b>didn't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Did Thomas answer your email? Yes, he did. No, he didn't.">🔊</button></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <h3>Use <i>have</i>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="استخدم have مع جمل المضارع التام والماضي التام المثبتة والمنفية، والأسئلة، والإجابات القصيرة.">ع</button>
+        </h3>
+        <p class="rule-desc">with present perfect and past perfect affirmative and negative statements, questions, and short answers.</p>
+        <div class="example-list">
+          <div class="example"><span class="ex-text">She <b>has</b> (not) created her own website.</span><button class="sp-btn sp" type="button" data-en="She has not created her own website.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Has</b> she posted any photos yet? <span class="ans">Yes, she <b>has</b>. / No, she <b>hasn't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Has she posted any photos yet? Yes, she has. No, she hasn't.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Have</b> you charged your cell phone? <span class="ans">Yes, I <b>have</b>. / No, I <b>haven't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Have you charged your cell phone? Yes, I have. No, I haven't.">🔊</button></div>
+          <div class="example"><span class="ex-text">I <b>had</b> gotten his email an hour before he called me.</span><button class="sp-btn sp" type="button" data-en="I had gotten his email an hour before he called me.">🔊</button></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <h3>Use <i>be</i>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="استخدم be مع جمل المضارع/الماضي المستمر المثبتة والمنفية، والأسئلة، والإجابات القصيرة.">ع</button>
+        </h3>
+        <p class="rule-desc">with progressive affirmative and negative statements, questions, and short answers.</p>
+        <div class="example-list">
+          <div class="example"><span class="ex-text">She <b>is</b> (not) answering her cell phone.</span><button class="sp-btn sp" type="button" data-en="She is not answering her cell phone.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Is</b> your cell phone working? <span class="ans">Yes, it <b>is</b>. / No, it <b>isn't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Is your cell phone working? Yes, it is. No, it isn't.">🔊</button></div>
+          <div class="example"><span class="ex-text">He <b>was</b> using his brother's cell phone yesterday.</span><button class="sp-btn sp" type="button" data-en="He was using his brother's cell phone yesterday.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Were</b> you surfing the Internet last night? <span class="ans">Yes, I <b>was</b>. / No, I <b>wasn't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Were you surfing the Internet last night? Yes, I was. No, I wasn't.">🔊</button></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <h3>Also use <i>be</i>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="استخدم be أيضًا مع جمل المبني للمجهول المثبتة والمنفية، والأسئلة، والإجابات القصيرة.">ع</button>
+        </h3>
+        <p class="rule-desc">with passive affirmative and negative statements, questions, and short answers.</p>
+        <div class="example-list">
+          <div class="example"><span class="ex-text">The Internet <b>is</b> (not) used by millions of people.</span><button class="sp-btn sp" type="button" data-en="The Internet is not used by millions of people.">🔊</button></div>
+          <div class="example"><span class="ex-text"><b>Were</b> you given a password? <span class="ans">Yes, I <b>was</b>. / No, I <b>wasn't</b>.</span></span><button class="sp-btn sp" type="button" data-en="Were you given a password? Yes, I was. No, I wasn't.">🔊</button></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn online" onclick="goTo(1)">Next: Structures →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 1 : STRUCTURES & PRONOUNS -->
+  <section class="panel" data-step="1">
+    <div class="card">
+      <div class="section-title"><span class="idx">02</span><h2>Structures: Affirmative, Negative &amp; Question</h2></div>
+      <p class="hint">Before you practise, review how each auxiliary verb changes the sentence pattern — and which form goes with which pronoun.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="قبل التدريب، راجع كيف يغيّر كل فعل مساعد شكل الجملة، وأي صيغة تُستخدم مع كل ضمير.">ع</button>
+      </p>
+
+      <h3 class="sub-heading">Personal Pronouns &amp; Auxiliary Forms
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="جدول يوضح الصيغة الصحيحة من be و do و have مع كل ضمير فاعل.">ع</button>
+      </h3>
+      <div class="table-wrap">
+        <table class="pronoun-table">
+          <thead><tr><th>Pronoun</th><th>be (now)</th><th>be (past)</th><th>do</th><th>did</th><th>have</th><th>had</th></tr></thead>
+          <tbody>
+            <tr><td>I</td><td>am</td><td>was</td><td>do</td><td>did</td><td>have</td><td>had</td></tr>
+            <tr><td>You</td><td>are</td><td>were</td><td>do</td><td>did</td><td>have</td><td>had</td></tr>
+            <tr><td>He / She / It</td><td>is</td><td>was</td><td>does</td><td>did</td><td>has</td><td>had</td></tr>
+            <tr><td>We</td><td>are</td><td>were</td><td>do</td><td>did</td><td>have</td><td>had</td></tr>
+            <tr><td>They</td><td>are</td><td>were</td><td>do</td><td>did</td><td>have</td><td>had</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint" style="margin-top:8px;">Example: <b>I am</b> ready. <b>I was</b> late. <b>I do</b> my homework. <b>I did</b> it yesterday. <b>I have</b> finished. — but <b>he / she / it</b> takes <b>is, does, has</b> instead.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="مثال: I am تُستخدم مع I، بينما he/she/it تأخذ is و does و has بدلاً من am و do و have.">ع</button>
+        <button class="sp-btn sp" type="button" data-en="I am ready. I was late. I do my homework. I did it yesterday. I have finished. But he, she, or it takes is, does, and has instead.">🔊</button>
+      </p>
+
+      <h3 class="sub-heading">Six Structures, Three Forms Each</h3>
+
+      <div class="struct-group">
+        <div class="struct-group-head"><h4>Simple Present — do / does</h4>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="المضارع البسيط: في الإثبات نستخدم الفعل مباشرة (أو نضيف s للغائب المفرد)؛ في النفي نستخدم do/does not قبل الفعل الأساسي؛ في السؤال نبدأ بـ Do/Does.">ع</button>
+        </div>
+        <div class="struct-row"><span class="struct-tag aff">Affirmative</span><div class="struct-body"><div class="struct-formula">Subject + verb (base or -s)</div><div class="struct-example">She checks her email every day. <button class="sp-btn sp" type="button" data-en="She checks her email every day.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag neg">Negative</span><div class="struct-body"><div class="struct-formula">Subject + do/does + not + verb (base)</div><div class="struct-example">She does not check her email on weekends. <button class="sp-btn sp" type="button" data-en="She does not check her email on weekends.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag q">Question</span><div class="struct-body"><div class="struct-formula">Do/Does + subject + verb (base)?</div><div class="struct-example">Does she check her email every day? <button class="sp-btn sp" type="button" data-en="Does she check her email every day?">🔊</button></div></div></div>
+      </div>
+
+      <div class="struct-group">
+        <div class="struct-group-head"><h4>Simple Past — did</h4>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="الماضي البسيط: في الإثبات نستخدم صيغة الفعل الماضية؛ في النفي نستخدم did not + الفعل الأساسي؛ في السؤال نبدأ بـ Did.">ع</button>
+        </div>
+        <div class="struct-row"><span class="struct-tag aff">Affirmative</span><div class="struct-body"><div class="struct-formula">Subject + verb (past form)</div><div class="struct-example">He sent the message. <button class="sp-btn sp" type="button" data-en="He sent the message.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag neg">Negative</span><div class="struct-body"><div class="struct-formula">Subject + did + not + verb (base)</div><div class="struct-example">He did not send the message. <button class="sp-btn sp" type="button" data-en="He did not send the message.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag q">Question</span><div class="struct-body"><div class="struct-formula">Did + subject + verb (base)?</div><div class="struct-example">Did he send the message? <button class="sp-btn sp" type="button" data-en="Did he send the message?">🔊</button></div></div></div>
+      </div>
+
+      <div class="struct-group">
+        <div class="struct-group-head"><h4>Present Perfect — have / has</h4>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="المضارع التام: في الإثبات نستخدم have/has + التصريف الثالث؛ في النفي نضيف not بعد have/has؛ في السؤال نبدأ بـ Have/Has.">ع</button>
+        </div>
+        <div class="struct-row"><span class="struct-tag aff">Affirmative</span><div class="struct-body"><div class="struct-formula">Subject + have/has + past participle</div><div class="struct-example">I have finished my homework. <button class="sp-btn sp" type="button" data-en="I have finished my homework.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag neg">Negative</span><div class="struct-body"><div class="struct-formula">Subject + have/has + not + past participle</div><div class="struct-example">I have not finished my homework. <button class="sp-btn sp" type="button" data-en="I have not finished my homework.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag q">Question</span><div class="struct-body"><div class="struct-formula">Have/Has + subject + past participle?</div><div class="struct-example">Have you finished your homework? <button class="sp-btn sp" type="button" data-en="Have you finished your homework?">🔊</button></div></div></div>
+      </div>
+
+      <div class="struct-group">
+        <div class="struct-group-head"><h4>Past Perfect — had</h4>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="الماضي التام: في الإثبات نستخدم had + التصريف الثالث؛ في النفي نضيف not بعد had؛ في السؤال نبدأ بـ Had.">ع</button>
+        </div>
+        <div class="struct-row"><span class="struct-tag aff">Affirmative</span><div class="struct-body"><div class="struct-formula">Subject + had + past participle</div><div class="struct-example">She had left before I arrived. <button class="sp-btn sp" type="button" data-en="She had left before I arrived.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag neg">Negative</span><div class="struct-body"><div class="struct-formula">Subject + had + not + past participle</div><div class="struct-example">She had not left before I arrived. <button class="sp-btn sp" type="button" data-en="She had not left before I arrived.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag q">Question</span><div class="struct-body"><div class="struct-formula">Had + subject + past participle?</div><div class="struct-example">Had she left before you arrived? <button class="sp-btn sp" type="button" data-en="Had she left before you arrived?">🔊</button></div></div></div>
+      </div>
+
+      <div class="struct-group">
+        <div class="struct-group-head"><h4>Progressive — am / is / are / was / were + verb-ing</h4>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="المضارع/الماضي المستمر: في الإثبات نستخدم صيغة be المناسبة + فعل + ing؛ في النفي نضيف not بعد be؛ في السؤال نبدأ بصيغة be.">ع</button>
+        </div>
+        <div class="struct-row"><span class="struct-tag aff">Affirmative</span><div class="struct-body"><div class="struct-formula">Subject + am/is/are/was/were + verb-ing</div><div class="struct-example">I am studying right now. <button class="sp-btn sp" type="button" data-en="I am studying right now.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag neg">Negative</span><div class="struct-body"><div class="struct-formula">Subject + am/is/are/was/were + not + verb-ing</div><div class="struct-example">I am not studying right now. <button class="sp-btn sp" type="button" data-en="I am not studying right now.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag q">Question</span><div class="struct-body"><div class="struct-formula">Am/Is/Are/Was/Were + subject + verb-ing?</div><div class="struct-example">Are you studying right now? <button class="sp-btn sp" type="button" data-en="Are you studying right now?">🔊</button></div></div></div>
+      </div>
+
+      <div class="struct-group">
+        <div class="struct-group-head"><h4>Passive — am / is / are / was / were + past participle</h4>
+          <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="المبني للمجهول: في الإثبات نستخدم صيغة be + التصريف الثالث؛ في النفي نضيف not بعد be؛ في السؤال نبدأ بصيغة be.">ع</button>
+        </div>
+        <div class="struct-row"><span class="struct-tag aff">Affirmative</span><div class="struct-body"><div class="struct-formula">Subject + am/is/are/was/were + past participle</div><div class="struct-example">The email is sent every day. <button class="sp-btn sp" type="button" data-en="The email is sent every day.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag neg">Negative</span><div class="struct-body"><div class="struct-formula">Subject + am/is/are/was/were + not + past participle</div><div class="struct-example">The email is not sent on weekends. <button class="sp-btn sp" type="button" data-en="The email is not sent on weekends.">🔊</button></div></div></div>
+        <div class="struct-row"><span class="struct-tag q">Question</span><div class="struct-body"><div class="struct-formula">Am/Is/Are/Was/Were + subject + past participle?</div><div class="struct-example">Is the email sent every day? <button class="sp-btn sp" type="button" data-en="Is the email sent every day?">🔊</button></div></div></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" onclick="goTo(0)">← Previous</button>
+        <button class="btn online" onclick="goTo(2)">Next: Circle the Verb →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2 : EXERCISE A -->
+  <section class="panel" data-step="2">
+    <div class="card">
+      <div class="section-title"><span class="idx">03</span><h2>Exercise A: Circle the Auxiliary Verb</h2></div>
+      <p class="hint">Click the word in each sentence that is the auxiliary verb.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="انقر على الكلمة التي تمثّل الفعل المساعد في كل جملة.">ع</button>
+      </p>
+      <div id="wordEx"></div>
+      <div class="actions">
+        <span class="live-score" id="scoreALive">Score: 0 / 7</span>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(1)">← Previous</button>
+        <button class="btn online" onclick="goTo(3)">Next: Yes/No Questions →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3 : EXERCISE B -->
+  <section class="panel" data-step="3">
+    <div class="card">
+      <div class="section-title"><span class="idx">04</span><h2>Exercise B: Write Yes/No Questions</h2></div>
+      <p class="hint">Each statement below can become a yes/no question. Choose the correct question for each one.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="يمكن تحويل كل جملة خبرية أدناه إلى سؤال بنعم/لا. اختر السؤال الصحيح لكل جملة.">ع</button>
+      </p>
+      <div id="quizB"></div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(2)">← Previous</button>
+        <button class="btn online" onclick="goTo(4)">Next: Complete the Dialogue →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 4 : EXERCISE C -->
+  <section class="panel" data-step="4">
+    <div class="card">
+      <div class="section-title"><span class="idx">05</span><h2>Exercise C: Complete the Dialogue</h2></div>
+      <p class="hint">Complete the sentences with the correct forms of <b>do</b>, <b>have</b>, and <b>be</b>. Click the correct choice for each blank.
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="أكمل الجمل بالصيغة الصحيحة من do و have و be. انقر على الخيار الصحيح لكل فراغ.">ع</button>
+      </p>
+      <div class="dialogue" id="dialogueWrap"></div>
+      <div class="actions">
+        <span class="live-score" id="scoreCLive">Score: 0 / 13</span>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(3)">← Previous</button>
+        <button class="btn online" onclick="goTo(5)">Next: Your Story →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5 : EXERCISE D -->
+  <section class="panel" data-step="5">
+    <div class="card">
+      <div class="section-title"><span class="idx">06</span><h2>Exercise D: Tell the Story</h2></div>
+      <p class="hint">Look at the picture. Make up a story about it. Use sentences with auxiliary verbs. Answer questions like these:
+        <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="انظر إلى الصورة. اختلق قصة عنها مستخدمًا جملًا فيها أفعال مساعدة. أجب عن أسئلة مثل هذه:">ع</button>
+      </p>
+      <div class="guide-list">
+        <div class="guide-item"><span class="bullet">•</span><span>Who are these people?</span><button class="sp-btn sp" type="button" data-en="Who are these people?">🔊</button></div>
+        <div class="guide-item"><span class="bullet">•</span><span>How long have they known each other?</span><button class="sp-btn sp" type="button" data-en="How long have they known each other?">🔊</button></div>
+        <div class="guide-item"><span class="bullet">•</span><span>How long have they been here?</span><button class="sp-btn sp" type="button" data-en="How long have they been here?">🔊</button></div>
+        <div class="guide-item"><span class="bullet">•</span><span>What are they doing?</span><button class="sp-btn sp" type="button" data-en="What are they doing?">🔊</button></div>
+      </div>
+      <textarea id="storyText" placeholder="Three men are sitting at a table... They have been friends for..."></textarea>
+      <div class="actions">
+        <button class="btn primary" id="saveStory">Save my writing</button>
+        <button class="btn" id="listenStory">🔊 Listen back</button>
+        <span class="save-note" id="storySaved"></span>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="goTo(4)">← Previous</button>
+        <button class="btn online" onclick="showResults()">See Final Results →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 6 : RESULTS -->
+  <section class="panel" data-step="6">
+    <div class="card">
+      <div class="section-title"><span class="idx">07</span><h2>Your Results</h2></div>
+      <div class="confetti-wrap" id="confettiWrap"></div>
+      <div class="score-hero">
+        <div class="score-num"><span id="scoreVal">0</span><span>/26</span></div>
+        <div class="score-bar"><i id="scoreBarFill" style="width:0%"></i></div>
+        <div class="score-msg" id="scoreMsg"></div>
+        <div id="scoreMsgTr"></div>
+      </div>
+      <div class="recap" id="recap"></div>
+      <div class="actions">
+        <button class="btn primary" onclick="resetAll()">Try Again From the Start</button>
+        <button class="btn" onclick="goTo(0)">Review the Rules</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="credit">Prepared by Abdulaziz Almehmadi</span>
+  Based on the "Connected by Technology" unit — Grammar: Auxiliary Verbs · Built as an interactive review tool
+  <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="مبني على وحدة «متصلون بالتقنية» — قواعد: الأفعال المساعدة · صُمم كأداة مراجعة تفاعلية">ع</button>
+</footer>
+
+<div class="ar-tooltip" id="arTooltip" role="tooltip" dir="rtl"></div>
+
+<script>
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window) || !text) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.95;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function bindSp(root){
+  (root||document).querySelectorAll('.sp').forEach(el=>{
+    if(el._spBound) return;
+    el._spBound = true;
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); e.preventDefault(); speak(el.dataset.en || el.textContent); });
+  });
+}
+
+/* ---------------- Arabic translation tooltip ---------------- */
+const arTooltip = document.getElementById('arTooltip');
+let arTooltipTrigger = null;
+function positionArTooltip(trigger){
+  const rect = trigger.getBoundingClientRect();
+  const tw = arTooltip.offsetWidth, th = arTooltip.offsetHeight;
+  let left = rect.left + rect.width/2 - tw/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+  let top = rect.top - th - 10, above = true;
+  if(top < 8){ top = rect.bottom + 10; above = false; }
+  arTooltip.style.left = left + 'px';
+  arTooltip.style.top = top + 'px';
+  arTooltip.classList.toggle('above', above);
+  arTooltip.classList.toggle('below', !above);
+  const arrowLeft = Math.max(14, Math.min(rect.left + rect.width/2 - left, tw - 14));
+  arTooltip.style.setProperty('--arrow-left', arrowLeft + 'px');
+}
+function showArTooltip(trigger){
+  arTooltip.textContent = trigger.dataset.ar;
+  arTooltip.style.left = '-9999px';
+  arTooltip.classList.add('show');
+  if(trigger.classList.contains('ar-trigger')) trigger.setAttribute('aria-expanded','true');
+  arTooltipTrigger = trigger;
+  requestAnimationFrame(()=> positionArTooltip(trigger));
+}
+function hideArTooltip(){
+  arTooltip.classList.remove('show');
+  if(arTooltipTrigger && arTooltipTrigger.classList.contains('ar-trigger')) arTooltipTrigger.setAttribute('aria-expanded','false');
+  arTooltipTrigger = null;
+}
+function bindArTriggers(root){
+  (root||document).querySelectorAll('.ar-trigger').forEach(el=>{
+    if(el._arBound) return;
+    el._arBound = true;
+    el.setAttribute('aria-expanded','false');
+    el.addEventListener('click', (e)=>{
+      e.stopPropagation(); e.preventDefault();
+      if(arTooltipTrigger === el){ hideArTooltip(); return; }
+      showArTooltip(el);
+    });
+  });
+}
+document.addEventListener('click', hideArTooltip);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideArTooltip(); });
+window.addEventListener('scroll', hideArTooltip, true);
+window.addEventListener('resize', hideArTooltip);
+
+/* ---------------- Stepper ---------------- */
+const steps = ["Learn","Structures","Circle the Verb","Yes/No Qs","Dialogue","Your Story","Results"];
+let current = 0;
+let furthest = 0;
+const stepperEl = document.getElementById('stepper');
+const stepperInner = document.createElement('div');
+stepperInner.className = 'stepper-inner';
+steps.forEach((label,i)=>{
+  const b = document.createElement('button');
+  b.className = 'step-btn';
+  b.innerHTML = `<span class="num">${i+1}</span><span class="lbl">${label}</span>`;
+  b.addEventListener('click',()=>goTo(i));
+  stepperInner.appendChild(b);
+});
+stepperEl.appendChild(stepperInner);
+function renderStepper(){
+  [...stepperInner.children].forEach((b,i)=>{
+    b.classList.toggle('active', i===current);
+    b.classList.toggle('done', i<current || i<furthest);
+  });
+}
+function goTo(i){
+  current = i;
+  furthest = Math.max(furthest,i);
+  hideArTooltip();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', +p.dataset.step===i));
+  renderStepper();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------------- Exercise A: circle the auxiliary ---------------- */
+const exerciseA = [
+  {sentence:"We are downloading an antivirus right now.", answer:"are"},
+  {sentence:"I do not check my email when I'm on vacation.", answer:"do"},
+  {sentence:"Online newspapers have become more popular than print newspapers.", answer:"have"},
+  {sentence:"Did you send her a message?", answer:"Did"},
+  {sentence:"The Internet is used by millions of people each day.", answer:"is"},
+  {sentence:"My grandmother had never used the Internet before last week.", answer:"had"},
+  {sentence:"We have been online for a long time.", answer:"have"},
+];
+let scoreA = 0;
+function renderWordEx(){
+  const wrap = document.getElementById('wordEx');
+  wrap.innerHTML = '';
+  exerciseA.forEach((item, idx)=>{
+    const row = document.createElement('div');
+    row.className = 'word-row';
+    const num = document.createElement('span'); num.className='num'; num.textContent = (idx+1)+'.';
+    const tokensSpan = document.createElement('span'); tokensSpan.className='tokens';
+    item.sentence.split(' ').forEach(tok=>{
+      const btn = document.createElement('button');
+      btn.type='button'; btn.className='word-token'; btn.textContent = tok;
+      const clean = tok.replace(/[.,!?]/g,'').toLowerCase();
+      btn.addEventListener('click', ()=>{
+        if(row.dataset.answered) return;
+        row.dataset.answered = '1';
+        const isCorrect = clean === item.answer.toLowerCase();
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        if(isCorrect){ scoreA++; }
+        else{
+          [...tokensSpan.children].forEach(b=>{
+            if(b.textContent.trim().replace(/[.,!?]/g,'').toLowerCase() === item.answer.toLowerCase()) b.classList.add('correct');
+          });
+        }
+        [...tokensSpan.children].forEach(b=> b.disabled = true);
+        document.getElementById('scoreALive').textContent = `Score: ${scoreA} / ${exerciseA.length}`;
+      });
+      tokensSpan.appendChild(btn);
+      tokensSpan.appendChild(document.createTextNode(' '));
+    });
+    const spBtn = document.createElement('button');
+    spBtn.type='button'; spBtn.className='sp-btn sp'; spBtn.dataset.en = item.sentence; spBtn.textContent = '🔊';
+    row.append(num, tokensSpan, spBtn);
+    wrap.appendChild(row);
+  });
+  bindSp(wrap);
+  document.getElementById('scoreALive').textContent = `Score: ${scoreA} / ${exerciseA.length}`;
+}
+
+/* ---------------- Exercise B: yes/no question quiz ---------------- */
+const quizB = [
+  { statement:"He found lots of good resources for his essay online.",
+    opts:[
+      "Did he find lots of good resources for his essay online?",
+      "Does he find lots of good resources for his essay online?",
+      "Has he find lots of good resources for his essay online?"
+    ], correct:0,
+    explain:"The statement is in the simple past, so the question uses the auxiliary \"did\": Did he find...?",
+    explainAr:"الجملة في الماضي البسيط، لذلك يُستخدم الفعل المساعد \"did\" في السؤال: Did he find...?" },
+  { statement:"She usually turns her cell phone off before class.",
+    opts:[
+      "Is she usually turn her cell phone off before class?",
+      "Does she usually turn her cell phone off before class?",
+      "Did she usually turns her cell phone off before class?"
+    ], correct:1,
+    explain:"The statement is in the simple present with \"she\", so the question uses \"does\": Does she usually turn...?",
+    explainAr:"الجملة في المضارع البسيط مع \"she\"، لذلك يُستخدم \"does\" في السؤال: Does she usually turn...?" },
+  { statement:"She's had that bicycle for a long time. (She's = She has)",
+    opts:[
+      "Does she had that bicycle for a long time?",
+      "Is she had that bicycle for a long time?",
+      "Has she had that bicycle for a long time?"
+    ], correct:2,
+    explain:"\"She's had\" is present perfect (she has had), so the question uses \"has\": Has she had...?",
+    explainAr:"\"She's had\" هي مضارع تام (she has had)، لذلك يُستخدم \"has\" في السؤال: Has she had...?" },
+  { statement:"He's not answering his phone. (He's = He is)",
+    opts:[
+      "Does he answering his phone?",
+      "Is he answering his phone?",
+      "Has he answering his phone?"
+    ], correct:1,
+    explain:"\"He's answering\" is present progressive (he is answering), so the question uses \"is\": Is he answering...?",
+    explainAr:"\"He's answering\" هي مضارع مستمر (he is answering)، لذلك يُستخدم \"is\" في السؤال: Is he answering...?" },
+  { statement:"She has posted photos on her website.",
+    opts:[
+      "Does she posted photos on her website?",
+      "Is she posted photos on her website?",
+      "Has she posted photos on her website?"
+    ], correct:2,
+    explain:"The statement is present perfect, so the question uses \"has\": Has she posted...?",
+    explainAr:"الجملة في المضارع التام، لذلك يُستخدم \"has\" في السؤال: Has she posted...?" },
+  { statement:"We've downloaded the program we were looking for. (We've = We have)",
+    opts:[
+      "Do we downloaded the program we were looking for?",
+      "Are we downloaded the program we were looking for?",
+      "Have we downloaded the program we were looking for?"
+    ], correct:2,
+    explain:"\"We've downloaded\" is present perfect (we have downloaded), so the question uses \"have\": Have we downloaded...?",
+    explainAr:"\"We've downloaded\" هي مضارع تام (we have downloaded)، لذلك يُستخدم \"have\" في السؤال: Have we downloaded...?" },
+];
+let scoreB = 0;
+function renderQuizB(){
+  const list = document.getElementById('quizB');
+  list.innerHTML = '';
+  quizB.forEach((item, qi)=>{
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.innerHTML = `
+      <div class="qtext">${qi+1}. ${item.statement} <button class="sp-btn sp" type="button" data-en="${item.statement.replace(/"/g,'&quot;')}">🔊</button></div>
+      <div class="opts"></div>
+      <div class="explain"></div>
+    `;
+    const optsWrap = card.querySelector('.opts');
+    item.opts.forEach((optText, oi)=>{
+      const b = document.createElement('button');
+      b.type='button'; b.className='opt';
+      b.innerHTML = `<span class="sp-btn sp" data-en="${optText.replace(/"/g,'&quot;')}">🔊</span> ${optText}`;
+      b.addEventListener('click', ()=>{
+        if(card.dataset.answered) return;
+        card.dataset.answered = '1';
+        [...optsWrap.children].forEach((el,idx2)=>{
+          el.disabled = true;
+          if(idx2===item.correct) el.classList.add('correct');
+          else if(idx2===oi) el.classList.add('wrong');
+        });
+        if(oi===item.correct) scoreB++;
+        const ex = card.querySelector('.explain');
+        ex.classList.add('show');
+        ex.innerHTML = `<div>${item.explain} <button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="${item.explainAr}">ع</button></div>`;
+        bindArTriggers(ex);
+      });
+      optsWrap.appendChild(b);
+      bindSp(b);
+    });
+    bindSp(card);
+    list.appendChild(card);
+  });
+}
+
+/* ---------------- Exercise C: dialogue fill-in ---------------- */
+const dialogueBlanks = [
+  {id:'b1', correct:'Do', distractor:'Have'},
+  {id:'b2', correct:'have', distractor:'am'},
+  {id:'b3', correct:'Are', distractor:'Is'},
+  {id:'b4', correct:'am', distractor:'is'},
+  {id:'b5', correct:'have', distractor:'has'},
+  {id:'b6', correct:'is', distractor:'are'},
+  {id:'b7', correct:'am', distractor:'is'},
+  {id:'b8', correct:'Did', distractor:'Do'},
+  {id:'b9', correct:'did', distractor:'do'},
+  {id:'b10', correct:'Do', distractor:'Does'},
+  {id:'b11', correct:'does', distractor:'do'},
+  {id:'b12', correct:'do', distractor:'does'},
+  {id:'b13', correct:'do', distractor:'does'},
+];
+const dialogueLines = [
+  { speaker:'Leila', template:"{{b1}} you still make your own jewelry?", full:"Do you still make your own jewelry?" },
+  { speaker:'Ana', template:"Yes, I do. In fact, I {{b2}} turned my hobby into a business.", full:"Yes, I do. In fact, I have turned my hobby into a business." },
+  { speaker:'Leila', template:"Really? {{b3}} you selling your jewelry now?", full:"Really? Are you selling your jewelry now?" },
+  { speaker:'Ana', template:"Yes, I {{b4}}. I {{b5}} sold more than 50 pieces of jewelry online this year. My jewelry {{b6}} bought by people all over the world. Right now, I {{b7}} making a bracelet for a woman in Shanghai!", full:"Yes, I am. I have sold more than 50 pieces of jewelry online this year. My jewelry is bought by people all over the world. Right now, I am making a bracelet for a woman in Shanghai!" },
+  { speaker:'Leila', template:"{{b8}} you make that necklace you're wearing?", full:"Did you make that necklace you're wearing?" },
+  { speaker:'Ana', template:"Yes, I {{b9}}.", full:"Yes, I did." },
+  { speaker:'Leila', template:"It's lovely. {{b10}} you have time to make one for me?", full:"It's lovely. Do you have time to make one for me?" },
+  { speaker:'Ana', template:"Of course.", full:"Of course." },
+  { speaker:'Leila', template:"How much {{b11}} a necklace like that cost?", full:"How much does a necklace like that cost?" },
+  { speaker:'Ana', template:"I {{b12}} not accept money from friends! I'll make you a necklace, but {{b13}} not even think about paying me for it!", full:"I do not accept money from friends! I'll make you a necklace, but do not even think about paying me for it!" },
+];
+let scoreC = 0;
+function renderDialogue(){
+  const wrap = document.getElementById('dialogueWrap');
+  wrap.innerHTML = '';
+  dialogueLines.forEach(line=>{
+    const div = document.createElement('div');
+    div.className = 'dialogue-line';
+    let html = `<span class="who">${line.speaker}:</span> ` + line.template.replace(/\{\{(b\d+)\}\}/g, (m,id)=>{
+      const b = dialogueBlanks.find(x=>x.id===id);
+      const opts = Math.random()<0.5 ? [b.correct,b.distractor] : [b.distractor,b.correct];
+      return `<span class="blank-choice" data-blank="${id}">` + opts.map(o=>`<button type="button" class="blank-btn" data-val="${o}">${o}</button>`).join('') + `</span>`;
+    });
+    html += ` <button type="button" class="sp-btn sp" data-en="${line.full.replace(/"/g,'&quot;')}">🔊</button>`;
+    div.innerHTML = html;
+    wrap.appendChild(div);
+  });
+  wrap.querySelectorAll('.blank-choice').forEach(group=>{
+    const id = group.dataset.blank;
+    const meta = dialogueBlanks.find(x=>x.id===id);
+    group.querySelectorAll('.blank-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(group.dataset.answered) return;
+        group.dataset.answered = '1';
+        const isCorrect = btn.dataset.val.toLowerCase() === meta.correct.toLowerCase();
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        if(isCorrect){ scoreC++; }
+        else{
+          group.querySelectorAll('.blank-btn').forEach(b2=>{
+            if(b2.dataset.val.toLowerCase() === meta.correct.toLowerCase()) b2.classList.add('correct');
+          });
+        }
+        group.querySelectorAll('.blank-btn').forEach(b2=> b2.disabled = true);
+        document.getElementById('scoreCLive').textContent = `Score: ${scoreC} / ${dialogueBlanks.length}`;
+      });
+    });
+  });
+  bindSp(wrap);
+  document.getElementById('scoreCLive').textContent = `Score: ${scoreC} / ${dialogueBlanks.length}`;
+}
+
+/* ---------------- Exercise D: writing ---------------- */
+const STORY_KEY = 'aux-verbs-story-v1';
+const storyText = document.getElementById('storyText');
+try{ storyText.value = localStorage.getItem(STORY_KEY) || ''; }catch(e){}
+document.getElementById('saveStory').addEventListener('click', ()=>{
+  try{
+    localStorage.setItem(STORY_KEY, storyText.value);
+    document.getElementById('storySaved').textContent = 'Saved ✓';
+    clearTimeout(window._ss); window._ss = setTimeout(()=>document.getElementById('storySaved').textContent='',1500);
+  }catch(e){}
+});
+document.getElementById('listenStory').addEventListener('click', ()=>{
+  if(!storyText.value.trim()){ speak('Write your story first.'); return; }
+  speak(storyText.value);
+});
+
+/* ---------------- Results ---------------- */
+function showResults(){
+  const total = scoreA + scoreB + scoreC;
+  const max = exerciseA.length + quizB.length + dialogueBlanks.length;
+  goTo(6);
+  document.getElementById('scoreVal').textContent = total;
+  document.querySelector('#scoreVal + span').textContent = '/' + max;
+  document.getElementById('scoreBarFill').style.width = (total/max*100)+'%';
+  let msg, msgAr;
+  if(total===max){ msg='🎉 Excellent! Perfect score on auxiliary verbs'; msgAr='ممتاز! نتيجة كاملة في الأفعال المساعدة'; }
+  else if(total>=max*0.8){ msg='👏 Very good work'; msgAr='عمل جيد جدًا'; }
+  else if(total>=max*0.5){ msg='🙂 Good — review the rules once more'; msgAr='جيد، راجع القاعدة مرة أخرى'; }
+  else { msg='📖 We recommend reviewing the rules again'; msgAr='يُنصح بمراجعة القاعدة مرة أخرى'; }
+  document.getElementById('scoreMsg').textContent = msg;
+  const msgTr = document.getElementById('scoreMsgTr');
+  msgTr.innerHTML = `<button class="ar-trigger" type="button" aria-label="Show Arabic translation" data-ar="${msgAr}">ع</button>`;
+  bindArTriggers(msgTr);
+
+  const recap = document.getElementById('recap');
+  recap.innerHTML = '';
+  const rows = [
+    {label:'Exercise A · Circle the Verb', ok: scoreA===exerciseA.length, text:`${scoreA} / ${exerciseA.length}`},
+    {label:'Exercise B · Yes/No Questions', ok: scoreB===quizB.length, text:`${scoreB} / ${quizB.length}`},
+    {label:'Exercise C · Complete the Dialogue', ok: scoreC===dialogueBlanks.length, text:`${scoreC} / ${dialogueBlanks.length}`},
+  ];
+  rows.forEach(r=>{
+    const row = document.createElement('div');
+    row.className = 'recap-row ' + (r.ok ? 'ok' : 'bad');
+    row.innerHTML = `<span>${r.label}</span><b>${r.text}</b>`;
+    recap.appendChild(row);
+  });
+  const storyRow = document.createElement('div');
+  const storyDone = storyText.value.trim().length > 15;
+  storyRow.className = 'recap-row ' + (storyDone ? 'ok' : 'neutral');
+  storyRow.innerHTML = `<span>Exercise D · Tell the Story</span><b>${storyDone ? 'Done ✓' : 'Not written'}</b>`;
+  recap.appendChild(storyRow);
+
+  if(total >= max*0.8 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const wrap = document.getElementById('confettiWrap');
+    wrap.innerHTML='';
+    const emojis=['🎉','✨','📚','🎓','💡'];
+    for(let i=0;i<16;i++){
+      const s=document.createElement('span');
+      s.className='confetti';
+      s.textContent = emojis[i%emojis.length];
+      s.style.left = (Math.random()*95)+'%';
+      s.style.animationDelay = (Math.random()*0.6)+'s';
+      wrap.appendChild(s);
+    }
+  }
+}
+
+function resetAll(){
+  scoreA = 0; scoreB = 0; scoreC = 0;
+  renderWordEx(); renderQuizB(); renderDialogue();
+  goTo(0);
+}
+
+renderWordEx();
+renderQuizB();
+renderDialogue();
+bindArTriggers(document);
+bindSp(document);
+renderStepper();
+goTo(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,733 @@
+<title>1 Big Change</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#EEF2F0; --surface:#FFFFFF; --surface-2:#E3EAE6;
+  --ink:#16262B; --ink-soft:#4B5E5E;
+  --primary:#1F6F78; --primary-deep:#123840; --primary-tint:#DCEBEA;
+  --accent:#C98A3B; --accent-tint:#F3E2C4;
+  --success:#2F8F5B; --success-bg:#DCEFE2;
+  --error:#B94A3E; --error-bg:#F7DEDA;
+  --border:#D3DBD6;
+  --shadow: 0 1px 2px rgba(18,56,64,.06), 0 8px 24px -12px rgba(18,56,64,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1A1C; --surface:#152426; --surface-2:#1B2E30;
+    --ink:#E7EEEC; --ink-soft:#9EB4B2;
+    --primary:#59B8B3; --primary-deep:#8FD6D0; --primary-tint:#1B3435;
+    --accent:#E3AC6C; --accent-tint:#3A2C18;
+    --success:#79D19B; --success-bg:#173428;
+    --error:#E38B7D; --error-bg:#3B211E;
+    --border:#28393B;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1A1C; --surface:#152426; --surface-2:#1B2E30;
+  --ink:#E7EEEC; --ink-soft:#9EB4B2;
+  --primary:#59B8B3; --primary-deep:#8FD6D0; --primary-tint:#1B3435;
+  --accent:#E3AC6C; --accent-tint:#3A2C18;
+  --success:#79D19B; --success-bg:#173428;
+  --error:#E38B7D; --error-bg:#3B211E;
+  --border:#28393B;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Karla',system-ui,sans-serif;line-height:1.5}
+.ar{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;unicode-bidi:isolate}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 100px}
+
+header.hero{background:radial-gradient(600px 260px at 15% -20%, var(--primary-tint), transparent 60%), var(--surface);border-bottom:1px solid var(--border);padding:40px 20px 26px}
+.hero-inner{max-width:960px;margin:0 auto}
+.eyebrow{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--primary-deep);margin:0 0 10px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.08;margin:0 0 8px;text-wrap:balance}
+.hero p.lead{margin:0 0 4px;font-size:1.02rem;color:var(--ink-soft);max-width:64ch}
+.hero p.ar.lead{font-size:1.1rem;margin-top:6px;color:var(--ink-soft)}
+.icon-nav{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.icon-nav a{display:flex;align-items:center;gap:9px;background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:7px 14px 7px 7px;text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600;transition:border-color .15s, transform .1s}
+.icon-nav a:hover{border-color:var(--primary);transform:translateY(-1px)}
+.badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary-tint);flex-shrink:0;font-size:1rem}
+
+.progress-rail{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border)}
+.progress-inner{max-width:960px;margin:0 auto;padding:10px 20px;display:flex;gap:14px;align-items:center;overflow-x:auto}
+.progress-step{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600;color:var(--ink-soft);white-space:nowrap}
+.progress-step .num{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.68rem;color:var(--ink-soft);flex-shrink:0;font-variant-numeric:tabular-nums}
+.progress-step.done .num{background:var(--success);border-color:var(--success);color:#fff}
+.progress-step.done{color:var(--success)}
+.progress-track{flex:1;min-width:12px;height:2px;background:var(--border);border-radius:2px}
+
+section.ex{padding-top:56px;scroll-margin-top:70px}
+.ex-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.ex-num{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--accent);flex-shrink:0}
+.ex-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;margin:0;color:var(--ink)}
+.ex-title .ar{font-size:1.05rem;font-weight:700;color:var(--ink-soft);margin-inline-start:10px}
+.ex-sub{color:var(--ink-soft);margin:2px 0 22px;font-size:.95rem}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:var(--shadow)}
+
+.spk{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface-2);color:var(--primary-deep);border-radius:999px;padding:6px 12px;font-weight:600;font-size:.78rem;cursor:pointer;transition:background .15s, transform .1s;flex-shrink:0}
+.spk:hover{background:var(--primary-tint)}
+.spk:active{transform:scale(.97)}
+.spk svg{width:13px;height:13px}
+button:focus-visible,.match-chip:focus-visible,.issue-chip:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+/* ---- vocabulary flashcards ---- */
+.vocab-group{margin-bottom:28px}
+.vocab-group:last-child{margin-bottom:0}
+.group-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.group-head .badge{width:38px;height:38px;font-size:1.2rem}
+.group-head h3{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;margin:0}
+.group-head .ar{display:block;font-size:.85rem;font-weight:500;color:var(--ink-soft)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.card{perspective:1200px;height:148px;cursor:pointer}
+.card-inner{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.card.flipped .card-inner{transform:rotateY(180deg)}
+.card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:11px;border:1px solid var(--border);padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}
+.card-front{background:var(--surface-2)}
+.card-back{background:var(--primary-tint);transform:rotateY(180deg)}
+.card-emoji{font-size:1.9rem;line-height:1}
+.card-word{font-family:'Fraunces',serif;font-weight:600;font-size:.92rem;color:var(--ink)}
+.card-ipa{font-family:'Karla',monospace;font-size:.68rem;color:var(--ink-soft)}
+.card-back .ar{font-size:1.08rem;font-weight:700;color:var(--primary-deep)}
+.card-hint{font-size:.6rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;position:absolute;bottom:7px}
+@media (prefers-reduced-motion: reduce){.card-inner{transition:none}}
+.ex1-status{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--ink-soft)}
+.bar{flex:1;height:6px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.bar-fill{height:100%;background:var(--primary);border-radius:4px;transition:width .3s}
+.reset-btn{font-size:.78rem;font-weight:600;color:var(--primary-deep);background:none;border:1px solid var(--border);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.reset-btn:hover{border-color:var(--primary)}
+.praise-banner{margin-top:16px;display:none;align-items:center;gap:12px;background:var(--success-bg);border:1px solid var(--success);border-radius:12px;padding:14px 18px}
+.praise-banner.show{display:flex}
+.praise-banner .em{font-size:1.6rem}
+.praise-banner strong{color:var(--success);font-family:'Fraunces',serif;font-size:1.02rem}
+.praise-banner span.ar{display:block;color:var(--success);font-size:.98rem}
+
+/* ---- match the meaning ---- */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:560px){.match-grid{grid-template-columns:1fr}}
+.match-col-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700;margin:0 0 10px}
+.match-col{display:flex;flex-direction:column;gap:9px}
+.match-chip{font-family:'Karla',sans-serif;font-size:.9rem;text-align:left;padding:12px 15px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s, background .15s, transform .1s}
+.match-chip.def{font-family:'Tajawal',sans-serif;direction:rtl;text-align:right}
+.match-chip:hover:not(.matched){border-color:var(--primary)}
+.match-chip.selected{border-color:var(--accent);background:var(--accent-tint)}
+.match-chip.matched{background:var(--success-bg);border-color:var(--success);color:var(--success);cursor:default}
+.match-chip.wrong{background:var(--error-bg);border-color:var(--error);color:var(--error);animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media (prefers-reduced-motion: reduce){.match-chip.wrong{animation:none}}
+.match-hint{font-size:.82rem;color:var(--ink-soft);margin-bottom:16px}
+
+/* ---- true/false ---- */
+.tf-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:.8rem;color:var(--ink-soft)}
+.tf-card{background:var(--surface-2);border-radius:12px;padding:30px 20px;text-align:center}
+.tf-statement{font-family:'Fraunces',serif;font-size:1.08rem;margin:0 0 6px}
+.tf-statement-ar{margin:0 0 22px;color:var(--ink-soft);font-size:1.02rem}
+.tf-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.tf-btn{min-width:130px;padding:14px 18px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);font-weight:700;cursor:pointer;font-size:.95rem;transition:border-color .15s}
+.tf-btn:disabled{cursor:default}
+.tf-btn.correct{background:var(--success-bg);border-color:var(--success);color:var(--success)}
+.tf-btn.wrong{background:var(--error-bg);border-color:var(--error);color:var(--error)}
+.tf-explain{margin-top:18px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:.86rem;display:none;text-align:left}
+.tf-explain.show{display:block}
+.tf-explain .ar{display:block;margin-top:4px;text-align:right}
+.tf-actions-row{display:flex;justify-content:flex-end;margin-top:16px}
+
+/* ---- listen & choose ---- */
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.quiz-progress{font-size:.8rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.quiz-score{font-size:.8rem;font-weight:700;color:var(--primary-deep)}
+.listen-block{display:flex;flex-direction:column;align-items:center;gap:14px;padding:30px 10px;background:var(--surface-2);border-radius:12px;margin-bottom:18px}
+.listen-emoji{font-size:2.2rem}
+.listen-big{width:64px;height:64px;border-radius:50%;background:var(--primary);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px -6px rgba(31,111,120,.5);transition:transform .12s}
+.listen-big:hover{transform:scale(1.06)}
+.listen-big svg{width:26px;height:26px;fill:#fff}
+.listen-label{font-size:.82rem;color:var(--ink-soft);font-weight:600}
+.reveal{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;min-height:1.4em;color:var(--ink);text-align:center}
+.reveal .card-ipa{display:block;margin-top:2px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.options{grid-template-columns:1fr}}
+.opt{font-family:'Tajawal',sans-serif;direction:rtl;text-align:right;font-size:.98rem;padding:14px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;color:var(--ink);transition:border-color .15s, background .15s}
+.opt:hover:not(:disabled){border-color:var(--primary)}
+.opt:disabled{cursor:default}
+.opt.correct{background:var(--success-bg);border-color:var(--success);color:var(--success)}
+.opt.wrong{background:var(--error-bg);border-color:var(--error);color:var(--error)}
+.quiz-done{text-align:center;padding:20px 0}
+.quiz-done .score-num{font-family:'Fraunces',serif;font-size:3rem;font-weight:600;color:var(--primary-deep)}
+
+.btn{font-weight:700;font-size:.88rem;background:var(--primary);color:#fff;border:none;border-radius:9px;padding:11px 22px;cursor:pointer;transition:background .15s, transform .1s}
+.btn:hover{background:var(--primary-deep)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.4;cursor:default}
+.quiz-actions{display:flex;justify-content:flex-end;margin-top:16px}
+
+/* ---- global issues ---- */
+.issue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:22px}
+.issue-chip{display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 6px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);cursor:pointer;text-align:center;transition:border-color .15s, background .15s}
+.issue-chip .em{font-size:1.5rem}
+.issue-chip .en{font-size:.75rem;font-weight:700}
+.issue-chip .ar{font-size:.8rem;color:var(--ink-soft)}
+.issue-chip.active{border-color:var(--accent);background:var(--accent-tint)}
+.issue-detail{border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;background:var(--surface)}
+.issue-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:4px;font-weight:700;font-family:'Fraunces',serif}
+.issue-detail label{display:block;font-size:.76rem;color:var(--ink-soft);margin:10px 0 4px;font-weight:600}
+.issue-detail input[type=text]{width:100%;font-family:'Tajawal',sans-serif;direction:rtl;text-align:right;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--ink);font-size:.9rem}
+.issue-empty{color:var(--ink-soft);font-size:.9rem;text-align:center;padding:10px 0}
+
+/* ---- talk together ---- */
+.dialogue{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.d-row{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:10px}
+.d-row.q{background:var(--primary-tint)}
+.d-row.a{background:var(--surface-2)}
+.d-row .tag{font-weight:700;font-size:.72rem;color:var(--primary-deep);flex-shrink:0;width:20px;padding-top:3px}
+.d-row p{margin:0;font-size:.92rem}
+textarea{width:100%;min-height:90px;resize:vertical;font-family:'Tajawal',sans-serif;direction:rtl;text-align:right;font-size:.96rem;border:1.5px solid var(--border);border-radius:10px;padding:12px;background:var(--surface-2);color:var(--ink)}
+textarea::placeholder{font-family:'Tajawal',sans-serif;color:var(--ink-soft)}
+
+/* ---- spelling ---- */
+.spell-hint{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:14px}
+.spell-hint .em{font-size:2.2rem}
+.spell-hint .ar{font-size:1rem;color:var(--ink-soft)}
+.spell-input{width:100%;max-width:340px;text-align:center;font-family:'Karla',monospace;font-size:1.15rem;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--ink);margin:0 auto;display:block;letter-spacing:.02em}
+.spell-input.correct{border-color:var(--success);background:var(--success-bg);color:var(--success)}
+.spell-input.wrong{border-color:var(--error);background:var(--error-bg);color:var(--error)}
+.spell-answer{margin-top:12px;font-size:.9rem;color:var(--ink-soft);text-align:center;min-height:1.3em}
+.spell-answer strong{color:var(--ink);font-family:'Fraunces',serif}
+.spell-actions{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+
+footer{padding:40px 20px 14px;text-align:center;color:var(--ink-soft);font-size:.78rem}
+footer .credit{font-weight:700;color:var(--ink);display:block;margin-bottom:8px;font-family:'Fraunces',serif;font-size:1.3rem}
+
+.toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);background:var(--primary-deep);color:#fff;padding:16px 30px;border-radius:999px;box-shadow:0 14px 36px -8px rgba(0,0,0,.45);display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;z-index:60}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toast.correct{background:var(--success)}
+.toast.wrong{background:var(--error)}
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow"><span class="dot"></span>Unit 1 · Listen &amp; Discuss</p>
+    <h1>1 Big Change</h1>
+    <p class="lead">Learn the words behind big change and global issues — then play, match, and test yourself.</p>
+    <p class="ar lead">تعلّم الكلمات المرتبطة بالتغيير والقضايا العالمية، ثم العب وطابق واختبر نفسك.</p>
+    <nav class="icon-nav">
+      <a href="#ex1"><span class="badge">🔤</span>Words</a>
+      <a href="#ex2"><span class="badge">🔗</span>Match</a>
+      <a href="#ex3"><span class="badge">✅</span>True/False</a>
+      <a href="#ex4"><span class="badge">🎧</span>Listen</a>
+      <a href="#ex5"><span class="badge">🌍</span>Issues</a>
+      <a href="#ex6"><span class="badge">💬</span>Talk</a>
+      <a href="#ex7"><span class="badge">✏️</span>Spelling</a>
+    </nav>
+  </div>
+</header>
+
+<div class="progress-rail">
+  <div class="progress-inner">
+    <div class="progress-step" id="pstep-1"><span class="num">1</span><span>Words</span></div>
+    <div class="progress-track"></div>
+    <div class="progress-step" id="pstep-2"><span class="num">2</span><span>Match</span></div>
+    <div class="progress-track"></div>
+    <div class="progress-step" id="pstep-3"><span class="num">3</span><span>True/False</span></div>
+    <div class="progress-track"></div>
+    <div class="progress-step" id="pstep-4"><span class="num">4</span><span>Listen</span></div>
+    <div class="progress-track"></div>
+    <div class="progress-step" id="pstep-5"><span class="num">5</span><span>Issues</span></div>
+    <div class="progress-track"></div>
+    <div class="progress-step" id="pstep-6"><span class="num">6</span><span>Talk</span></div>
+    <div class="progress-track"></div>
+    <div class="progress-step" id="pstep-7"><span class="num">7</span><span>Spelling</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="ex" id="ex1">
+    <div class="ex-head"><span class="ex-num">01</span><h2 class="ex-title">Learn the Words <span class="ar">تعلّم الكلمات</span></h2></div>
+    <p class="ex-sub">Tap a card to flip it and hear the word — tap again to flip it back.</p>
+    <div class="panel" id="vocabPanel"></div>
+    <div class="ex1-status">
+      <span id="ex1Count">0 / 19</span>
+      <div class="bar"><div class="bar-fill" id="ex1Bar" style="width:0%"></div></div>
+      <button class="reset-btn" id="resetCards">↺ Flip All Back</button>
+    </div>
+    <div class="praise-banner" id="praiseBanner">
+      <span class="em">🎉</span>
+      <div><strong>Excellent! You learned all the words!</strong><span class="ar">ممتاز! لقد تعلمت كل الكلمات!</span></div>
+    </div>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-head"><span class="ex-num">02</span><h2 class="ex-title">Match the Meaning <span class="ar">طابق المعنى</span></h2></div>
+    <p class="ex-sub">Tap a word, then tap the definition that matches it.</p>
+    <div class="panel">
+      <p class="match-hint ar">اختر الكلمة أولًا، ثم اختر المعنى الصحيح لها.</p>
+      <div class="match-grid">
+        <div><p class="match-col-label">Words</p><div class="match-col" id="matchWords"></div></div>
+        <div><p class="match-col-label">Meanings</p><div class="match-col" id="matchDefs"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-head"><span class="ex-num">03</span><h2 class="ex-title">True or False <span class="ar">صح أم خطأ</span></h2></div>
+    <p class="ex-sub">Read each statement and decide if it is true or false.</p>
+    <div class="panel" id="tfPanel"></div>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-head"><span class="ex-num">04</span><h2 class="ex-title">Listen &amp; Choose <span class="ar">اسمع واختر</span></h2></div>
+    <p class="ex-sub">Press play, listen to the word, then pick its Arabic translation.</p>
+    <div class="panel" id="quizPanel"></div>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-head"><span class="ex-num">05</span><h2 class="ex-title">Global Issues <span class="ar">قضايا عالمية</span></h2></div>
+    <p class="ex-sub">Mark the issues that affect us most. Write a fact and its effect for each one.</p>
+    <div class="panel">
+      <div class="issue-grid" id="issueGrid"></div>
+      <div id="issueDetails"><p class="issue-empty">Tap an issue above to start writing. <span class="ar">اضغط على قضية أعلاه لتبدأ الكتابة.</span></p></div>
+    </div>
+  </section>
+
+  <section class="ex" id="ex6">
+    <div class="ex-head"><span class="ex-num">06</span><h2 class="ex-title">Talk About It <span class="ar">تحدّث عن الموضوع</span></h2></div>
+    <p class="ex-sub">Read the example, then write your own language question and answer about a lesson word.</p>
+    <div class="panel">
+      <div class="dialogue">
+        <div class="d-row q"><span class="tag">Q</span><p>What part of speech is "pollution" — a noun or a verb?</p><button class="spk" data-say="What part of speech is pollution, a noun or a verb?">🔊</button></div>
+        <div class="d-row a"><span class="tag">A</span><p>It's a noun. The verb form is "pollute."</p><button class="spk" data-say="It's a noun. The verb form is pollute.">🔊</button></div>
+        <div class="d-row q"><span class="tag">Q</span><p>What's the opposite of "poverty"?</p><button class="spk" data-say="What's the opposite of poverty?">🔊</button></div>
+        <div class="d-row a"><span class="tag">A</span><p>The opposite of "poverty" is "wealth."</p><button class="spk" data-say="The opposite of poverty is wealth.">🔊</button></div>
+      </div>
+      <label style="display:block;font-size:.8rem;color:var(--ink-soft);font-weight:600;margin-bottom:6px" class="ar">اكتب سؤالًا لغويًا خاصًا بك عن إحدى كلمات الدرس وإجابته (نوعها، ضدها، أو مرادفها)</label>
+      <textarea id="talkBox" placeholder="سؤالي: ... / إجابتي: ..."></textarea>
+    </div>
+  </section>
+
+  <section class="ex" id="ex7">
+    <div class="ex-head"><span class="ex-num">07</span><h2 class="ex-title">Spelling <span class="ar">إملاء</span></h2></div>
+    <p class="ex-sub">Listen to the word, then type its correct spelling.</p>
+    <div class="panel" id="spellPanel"></div>
+  </section>
+
+</div>
+
+<footer>
+  <span class="credit">Prepared by Abdulaziz Almehmadi</span>
+  Speech uses your browser's built-in English voice. <span class="ar">يعتمد الصوت على متصفحك.</span>
+</footer>
+<div class="toast" id="toast"><span class="em">👍</span><span id="toastText"></span></div>
+
+<script>
+/* ---------- vocabulary ---------- */
+const GROUPS = [
+  {
+    id:'g-verbs', icon:'🔑', titleEn:'Key Verbs', titleAr:'أفعال أساسية',
+    words:[
+      {en:'Affect', ar:'يؤثر في', ipa:'/əˈfekt/', img:'💥'},
+      {en:'Launch', ar:'يُطلق', ipa:'/lɔːntʃ/', img:'🚀'},
+      {en:'Take for Granted', ar:'يعتبره أمرًا مسلّمًا به', ipa:'/teɪk fər ˈɡræn.tɪd/', img:'😌'},
+      {en:'Establish', ar:'يؤسس / ينشئ', ipa:'/ɪˈstæb.lɪʃ/', img:'📌'},
+      {en:'Host', ar:'يستضيف', ipa:'/hoʊst/', img:'🎪'}
+    ]
+  },
+  {
+    id:'g-issues', icon:'🌍', titleEn:'Global Issues', titleAr:'قضايا عالمية',
+    words:[
+      {en:'Global Warming', ar:'الاحتباس الحراري', ipa:'/ˈɡloʊ.bl ˈwɔːr.mɪŋ/', img:'🌡️'},
+      {en:'Pollution', ar:'التلوث', ipa:'/pəˈluː.ʃn/', img:'🏭'},
+      {en:'Poverty', ar:'الفقر', ipa:'/ˈpɒv.ər.ti/', img:'🪙'},
+      {en:'Diseases', ar:'الأمراض', ipa:'/dɪˈziː.zɪz/', img:'🦠'},
+      {en:'Security', ar:'الأمن', ipa:'/sɪˈkjʊər.ə.ti/', img:'🛡️'},
+      {en:'Unemployment', ar:'البطالة', ipa:'/ˌʌn.ɪmˈplɔɪ.mənt/', img:'📉'},
+      {en:'Fresh Water', ar:'المياه العذبة', ipa:'/freʃ ˈwɔː.tər/', img:'💧'},
+      {en:'Traffic', ar:'الازدحام المروري', ipa:'/ˈtræf.ɪk/', img:'🚦'},
+      {en:'Economy', ar:'الاقتصاد', ipa:'/ɪˈkɒn.ə.mi/', img:'💹'},
+      {en:'Globalization', ar:'العولمة', ipa:'/ˌɡloʊ.bəl.aɪˈzeɪ.ʃn/', img:'🌐'},
+      {en:'Endangered Species', ar:'أنواع مهددة بالانقراض', ipa:'/ɪnˈdeɪn.dʒərd ˈspiː.ʃiːz/', img:'🐅'},
+      {en:'Natural Disasters', ar:'الكوارث الطبيعية', ipa:'/ˈnætʃ.ər.əl dɪˈzæs.tərz/', img:'🌪️'},
+      {en:'Terrorism', ar:'الإرهاب', ipa:'/ˈter.ər.ɪ.zəm/', img:'💣'},
+      {en:'Overpopulation', ar:'الاكتظاظ السكاني', ipa:'/ˌoʊ.vər.pɒp.jʊˈleɪ.ʃn/', img:'👥'}
+    ]
+  }
+];
+const VOCAB = GROUPS.flatMap(g=>g.words);
+
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.92;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+const SPK_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.06a7 7 0 0 1 0 13.48v2.06a9 9 0 0 0 0-17.6z"/></svg>';
+const PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+
+const PRAISE = [{en:'Excellent!',ar:'ممتاز!'},{en:'Great job!',ar:'عمل رائع!'},{en:'Well done!',ar:'أحسنت!'},{en:'Perfect!',ar:'رائع جدًا!'},{en:'You got it!',ar:'عرفتها!'},{en:'Fantastic!',ar:'رائع!'}];
+const ENCOURAGE = [{en:'Nice try!',ar:'محاولة جيدة!'},{en:'Keep going!',ar:'واصل المحاولة!'},{en:'Almost!',ar:'اقتربت!'},{en:"Don't give up!",ar:'لا تستسلم!'}];
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+let toastTimer;
+function showToast(phrase, kind){
+  const t = document.getElementById('toast');
+  t.className = 'toast show ' + kind;
+  t.querySelector('.em').textContent = kind === 'wrong' ? '💡' : '🎉';
+  document.getElementById('toastText').textContent = phrase.en;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 2900);
+}
+
+function loadState(){ try{ return JSON.parse(localStorage.getItem('cc_state')) || {}; }catch(e){ return {}; } }
+function saveState(s){ try{ localStorage.setItem('cc_state', JSON.stringify(s)); }catch(e){} }
+let STATE = Object.assign({flipped:[], quizDone:false, matched:[], tfScoreDone:false, issues:{}, talk:''}, loadState());
+function markStep(id, done){ document.getElementById(id).classList.toggle('done', !!done); }
+
+/* ---------- 1. flashcards ---------- */
+const vocabPanel = document.getElementById('vocabPanel');
+let wIndex = 0;
+GROUPS.forEach(g=>{
+  const groupEl = document.createElement('div');
+  groupEl.className = 'vocab-group'; groupEl.id = g.id;
+  groupEl.innerHTML = `<div class="group-head"><span class="badge">${g.icon}</span><h3>${g.titleEn}<span class="ar">${g.titleAr}</span></h3></div><div class="card-grid"></div>`;
+  const grid = groupEl.querySelector('.card-grid');
+  g.words.forEach(w=>{
+    const i = wIndex++;
+    const card = document.createElement('div');
+    card.className = 'card' + (STATE.flipped.includes(i) ? ' flipped' : '');
+    card.innerHTML = `<div class="card-inner">
+      <div class="card-face card-front"><span class="card-emoji">${w.img}</span><div class="card-word">${w.en}</div><div class="card-ipa">${w.ipa}</div><span class="card-hint">Tap to flip</span></div>
+      <div class="card-face card-back"><span class="card-emoji">${w.img}</span><span class="ar">${w.ar}</span><span class="card-hint">Tap to flip back</span></div>
+    </div>`;
+    card.addEventListener('click', ()=>{
+      const wasFlipped = card.classList.contains('flipped');
+      card.classList.toggle('flipped');
+      if(!wasFlipped){
+        speak(w.en);
+        if(!STATE.flipped.includes(i)){ STATE.flipped.push(i); saveState(STATE); updateEx1(); }
+      }
+    });
+    grid.appendChild(card);
+  });
+  vocabPanel.appendChild(groupEl);
+});
+document.getElementById('resetCards').addEventListener('click', ()=>{
+  document.querySelectorAll('#vocabPanel .card').forEach(c=>c.classList.remove('flipped'));
+});
+let lastMilestone = 0;
+function updateEx1(){
+  const n = STATE.flipped.length;
+  document.getElementById('ex1Count').textContent = n + ' / ' + VOCAB.length;
+  document.getElementById('ex1Bar').style.width = (n/VOCAB.length*100) + '%';
+  markStep('pstep-1', n === VOCAB.length);
+  if(n === VOCAB.length){ document.getElementById('praiseBanner').classList.add('show'); }
+  else if(n > 0 && n % 5 === 0 && n !== lastMilestone){ lastMilestone = n; showToast(pick(PRAISE), 'correct'); }
+}
+updateEx1();
+
+/* ---------- 2. match the meaning ---------- */
+const MATCH_PAIRS = [
+  {word:'Affect', def:'to produce a change'},
+  {word:'Launch', def:'to send into space'},
+  {word:'Take for Granted', def:'to accept as part of life'},
+  {word:'Establish', def:'to set up, start'},
+  {word:'Host', def:'to provide a place for'}
+];
+const wordsCol = document.getElementById('matchWords');
+const defsCol = document.getElementById('matchDefs');
+shuffle(MATCH_PAIRS.map(p=>p.word)).forEach(word=>{
+  const chip = document.createElement('button');
+  chip.className = 'match-chip'; chip.textContent = word; chip.dataset.word = word;
+  if(STATE.matched.includes(word)) chip.classList.add('matched');
+  chip.addEventListener('click', ()=>onWordClick(chip));
+  wordsCol.appendChild(chip);
+});
+const ARABIC_DEF = {
+  'to produce a change':'يُحدث تأثيرًا / تغييرًا',
+  'to send into space':'يرسله إلى الفضاء',
+  'to accept as part of life':'يتقبله كجزء طبيعي من الحياة',
+  'to set up, start':'يبدأ / ينشئ',
+  'to provide a place for':'يوفر مكانًا لـ'
+};
+shuffle(MATCH_PAIRS.map(p=>p.def)).forEach(def=>{
+  const chip = document.createElement('button');
+  chip.className = 'match-chip def'; chip.dataset.def = def;
+  chip.innerHTML = `${def}<br><span style="font-size:.82rem;opacity:.75">${ARABIC_DEF[def]}</span>`;
+  const pairWord = MATCH_PAIRS.find(p=>p.def===def).word;
+  if(STATE.matched.includes(pairWord)) chip.classList.add('matched');
+  chip.addEventListener('click', ()=>onDefClick(chip));
+  defsCol.appendChild(chip);
+});
+let selectedWordChip = null;
+function onWordClick(chip){
+  if(chip.classList.contains('matched')) return;
+  wordsCol.querySelectorAll('.match-chip').forEach(c=>c.classList.remove('selected'));
+  chip.classList.add('selected');
+  selectedWordChip = chip;
+}
+function onDefClick(chip){
+  if(chip.classList.contains('matched') || !selectedWordChip) return;
+  const word = selectedWordChip.dataset.word;
+  const correctDef = MATCH_PAIRS.find(p=>p.word===word).def;
+  if(chip.dataset.def === correctDef){
+    chip.classList.add('matched'); selectedWordChip.classList.add('matched');
+    selectedWordChip.classList.remove('selected');
+    STATE.matched.push(word); saveState(STATE);
+    showToast(pick(PRAISE), 'correct');
+    selectedWordChip = null;
+    if(STATE.matched.length === MATCH_PAIRS.length) markStep('pstep-2', true);
+  } else {
+    chip.classList.add('wrong'); selectedWordChip.classList.add('wrong');
+    showToast(pick(ENCOURAGE), 'wrong');
+    setTimeout(()=>{ chip.classList.remove('wrong'); selectedWordChip.classList.remove('wrong','selected'); selectedWordChip = null; }, 500);
+  }
+}
+if(STATE.matched.length === MATCH_PAIRS.length) markStep('pstep-2', true);
+
+/* ---------- 3. true or false ---------- */
+const TF = [
+  {en:"Sputnik was the name of a Russian space ship.", ar:'كان سبوتنيك اسم سفينة فضاء روسية.', answer:false,
+   explainEn:'Sputnik 1 was the first artificial satellite — not a ship.', explainAr:'سبوتنيك 1 كان أول قمر صناعي، وليس سفينة.'},
+  {en:'King Abdulaziz set the country on the road to modernization.', ar:'وضع الملك عبدالعزيز الدولة على طريق التحديث.', answer:true,
+   explainEn:'He began building infrastructure and modernizing the country.', explainAr:'بدأ ببناء البنية التحتية وتحديث الدولة.'},
+  {en:'At present the UAE has ten member states.', ar:'تتكون الإمارات حاليًا من عشر إمارات.', answer:false,
+   explainEn:'The UAE is a federation of seven sheikhdoms.', explainAr:'الإمارات اتحاد يتكون من سبع إمارات فقط.'},
+  {en:'The national currency came into use in 1963.', ar:'دخلت العملة الوطنية التداول عام 1963.', answer:false,
+   explainEn:'It was launched in 1973, not 1963.', explainAr:'تم إطلاقها عام 1973 وليس 1963.'},
+  {en:'Digital forms of information are something of the past.', ar:'الأشكال الرقمية للمعلومات أصبحت شيئًا من الماضي.', answer:false,
+   explainEn:'Digital information is part of life today, not the past.', explainAr:'المعلومات الرقمية جزء من حياتنا اليوم، وليست من الماضي.'}
+];
+const tfPanel = document.getElementById('tfPanel');
+let tf = { idx:0, score:0 };
+function renderTF(){
+  if(tf.idx >= TF.length){
+    STATE.tfScoreDone = true; saveState(STATE); markStep('pstep-3', true);
+    const pct = Math.round(tf.score/TF.length*100);
+    const msg = pct >= 80 ? {en:'Outstanding!',ar:'عمل استثنائي!'} : pct >= 50 ? {en:'Good effort!',ar:'مجهود جيد!'} : {en:'Keep practicing!',ar:'واصل التدريب!'};
+    tfPanel.innerHTML = `<div class="quiz-done"><div class="score-num">${tf.score} / ${TF.length}</div>
+      <p style="font-weight:700;margin:10px 0 0;">${msg.en}</p><p class="ar" style="font-size:1.1rem;margin:2px 0 20px;">${msg.ar}</p>
+      <button class="btn" id="tfRetry">Try Again</button></div>`;
+    document.getElementById('tfRetry').addEventListener('click', ()=>{ tf = {idx:0, score:0}; renderTF(); });
+    return;
+  }
+  const item = TF[tf.idx];
+  tfPanel.innerHTML = `<div class="tf-top"><span>Statement ${tf.idx+1} / ${TF.length}</span><span>Score: ${tf.score}</span></div>
+    <div class="tf-card">
+      <p class="tf-statement">${item.en}</p>
+      <p class="tf-statement-ar ar">${item.ar}</p>
+      <div class="tf-actions">
+        <button class="tf-btn true-btn" data-val="true">True <span class="ar">صح</span></button>
+        <button class="tf-btn false-btn" data-val="false">False <span class="ar">خطأ</span></button>
+      </div>
+      <div class="tf-explain" id="tfExplain"><strong>${item.explainEn}</strong><span class="ar">${item.explainAr}</span></div>
+    </div>
+    <div class="tf-actions-row"><button class="btn" id="tfNext" disabled>Next</button></div>`;
+  tfPanel.querySelectorAll('.tf-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const chosen = btn.dataset.val === 'true';
+      tfPanel.querySelectorAll('.tf-btn').forEach(b=>b.disabled = true);
+      if(chosen === item.answer){ btn.classList.add('correct'); tf.score++; showToast(pick(PRAISE),'correct'); }
+      else{
+        btn.classList.add('wrong'); showToast(pick(ENCOURAGE),'wrong');
+        tfPanel.querySelector(item.answer ? '.true-btn' : '.false-btn').classList.add('correct');
+      }
+      document.getElementById('tfExplain').classList.add('show');
+      document.getElementById('tfNext').disabled = false;
+    });
+  });
+  document.getElementById('tfNext').addEventListener('click', ()=>{ tf.idx++; renderTF(); });
+}
+renderTF();
+if(STATE.tfScoreDone) markStep('pstep-3', true);
+
+/* ---------- 4. listen & choose ---------- */
+const quizPanel = document.getElementById('quizPanel');
+let quiz = { order: shuffle(VOCAB.map((_,i)=>i)), idx:0, score:0, answered:false };
+function buildOptions(correctIdx){
+  const pool = VOCAB.map((_,i)=>i).filter(i=>i!==correctIdx);
+  return shuffle([correctIdx, ...shuffle(pool).slice(0,3)]);
+}
+function renderQuiz(){
+  if(quiz.idx >= quiz.order.length){
+    STATE.quizDone = true; saveState(STATE); markStep('pstep-4', true);
+    const pct = Math.round(quiz.score/quiz.order.length*100);
+    const msg = pct >= 80 ? {en:'Outstanding work!',ar:'عمل استثنائي!'} : pct >= 50 ? {en:'Good effort!',ar:'مجهود جيد!'} : {en:'Keep practicing!',ar:'واصل التدريب!'};
+    quizPanel.innerHTML = `<div class="quiz-done"><div class="score-num">${quiz.score} / ${quiz.order.length}</div>
+      <p style="font-weight:700;margin:10px 0 0;">${msg.en}</p><p class="ar" style="font-size:1.1rem;margin:2px 0 20px;">${msg.ar}</p>
+      <button class="btn" id="retryBtn">Try Again</button></div>`;
+    document.getElementById('retryBtn').addEventListener('click', ()=>{
+      quiz = { order: shuffle(VOCAB.map((_,i)=>i)), idx:0, score:0, answered:false }; renderQuiz();
+    });
+    return;
+  }
+  const wIdx = quiz.order[quiz.idx];
+  const word = VOCAB[wIdx];
+  const options = buildOptions(wIdx);
+  quizPanel.innerHTML = `<div class="quiz-top"><span class="quiz-progress">Question ${quiz.idx+1} / ${quiz.order.length}</span><span class="quiz-score">Score: ${quiz.score}</span></div>
+    <div class="listen-block">
+      <span class="listen-emoji" id="qEmoji">❓</span>
+      <button class="listen-big" id="playBtn" aria-label="Play word">${PLAY_ICON}</button>
+      <span class="listen-label">Tap to listen</span>
+      <div class="reveal" id="revealEl"></div>
+    </div>
+    <div class="options" id="optRow"></div>
+    <div class="quiz-actions"><button class="btn" id="nextBtn" disabled>Next</button></div>`;
+  document.getElementById('playBtn').addEventListener('click', ()=>speak(word.en));
+  const optRow = document.getElementById('optRow');
+  options.forEach(optIdx=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt ar'; btn.textContent = VOCAB[optIdx].ar;
+    btn.addEventListener('click', ()=>{
+      if(quiz.answered) return; quiz.answered = true;
+      optRow.querySelectorAll('.opt').forEach(b=>b.disabled = true);
+      document.getElementById('qEmoji').textContent = word.img;
+      if(optIdx === wIdx){ btn.classList.add('correct'); quiz.score++; showToast(pick(PRAISE),'correct'); }
+      else{
+        btn.classList.add('wrong');
+        optRow.querySelectorAll('.opt').forEach(b=>{ if(b.textContent === word.ar) b.classList.add('correct'); });
+        showToast(pick(ENCOURAGE),'wrong');
+      }
+      document.getElementById('revealEl').innerHTML = `${word.en}<span class="card-ipa">${word.ipa}</span>`;
+      document.getElementById('nextBtn').disabled = false;
+      quizPanel.querySelector('.quiz-score').textContent = 'Score: ' + quiz.score;
+    });
+    optRow.appendChild(btn);
+  });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{ quiz.idx++; quiz.answered = false; renderQuiz(); });
+}
+renderQuiz();
+if(STATE.quizDone) markStep('pstep-4', true);
+
+/* ---------- 5. global issues ---------- */
+const ISSUES = GROUPS[1].words;
+const issueGrid = document.getElementById('issueGrid');
+const issueDetails = document.getElementById('issueDetails');
+ISSUES.forEach((iss,idx)=>{
+  const chip = document.createElement('button');
+  chip.className = 'issue-chip';
+  if(STATE.issues[idx] && STATE.issues[idx].marked) chip.classList.add('active');
+  chip.innerHTML = `<span class="em">${iss.img}</span><span class="en">${iss.en}</span><span class="ar">${iss.ar}</span>`;
+  chip.addEventListener('click', ()=>{
+    if(!STATE.issues[idx]) STATE.issues[idx] = {marked:false, fact:'', effect:''};
+    STATE.issues[idx].marked = !STATE.issues[idx].marked;
+    chip.classList.toggle('active', STATE.issues[idx].marked);
+    saveState(STATE);
+    renderIssueDetails();
+  });
+  issueGrid.appendChild(chip);
+});
+function renderIssueDetails(){
+  const active = ISSUES.map((iss,idx)=>({iss,idx})).filter(o=>STATE.issues[o.idx] && STATE.issues[o.idx].marked);
+  if(!active.length){
+    issueDetails.innerHTML = '<p class="issue-empty">Tap an issue above to start writing. <span class="ar">اضغط على قضية أعلاه لتبدأ الكتابة.</span></p>';
+    updateEx5Progress();
+    return;
+  }
+  issueDetails.innerHTML = '';
+  active.forEach(({iss,idx})=>{
+    const data = STATE.issues[idx];
+    const box = document.createElement('div');
+    box.className = 'issue-detail';
+    box.innerHTML = `<div class="issue-detail-head"><span>${iss.img}</span><span>${iss.en}</span><span class="ar" style="font-weight:500;color:var(--ink-soft)">${iss.ar}</span></div>
+      <label class="ar">اكتب حقيقة عن هذه القضية</label>
+      <input type="text" data-field="fact" placeholder="مثال: ..." value="${data.fact || ''}">
+      <label class="ar">ما تأثير ذلك؟</label>
+      <input type="text" data-field="effect" placeholder="مثال: ..." value="${data.effect || ''}">`;
+    box.querySelectorAll('input').forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        STATE.issues[idx][inp.dataset.field] = inp.value;
+        saveState(STATE);
+        updateEx5Progress();
+      });
+    });
+    issueDetails.appendChild(box);
+  });
+  updateEx5Progress();
+}
+function updateEx5Progress(){
+  const filled = Object.values(STATE.issues).filter(v=>v.marked && v.fact && v.fact.trim() && v.effect && v.effect.trim()).length;
+  markStep('pstep-5', filled >= 3);
+}
+renderIssueDetails();
+
+/* ---------- 6. talk about it ---------- */
+document.querySelectorAll('[data-say]').forEach(btn=>{
+  btn.addEventListener('click', ()=>speak(btn.dataset.say));
+});
+const talkBox = document.getElementById('talkBox');
+talkBox.value = STATE.talk || '';
+let talkTimer;
+talkBox.addEventListener('input', ()=>{
+  clearTimeout(talkTimer);
+  talkTimer = setTimeout(()=>{
+    STATE.talk = talkBox.value; saveState(STATE);
+    markStep('pstep-6', talkBox.value.trim().length > 0);
+  }, 500);
+});
+if(STATE.talk && STATE.talk.trim().length > 0) markStep('pstep-6', true);
+
+/* ---------- 7. spelling / dictation ---------- */
+const spellPanel = document.getElementById('spellPanel');
+let spell = { order: shuffle(VOCAB.map((_,i)=>i)), idx:0, score:0, answered:false };
+function normalize(s){ return s.trim().toLowerCase().replace(/\s+/g,' '); }
+function renderSpell(){
+  if(spell.idx >= spell.order.length){
+    STATE.spellDone = true; saveState(STATE); markStep('pstep-7', true);
+    const pct = Math.round(spell.score/spell.order.length*100);
+    const msg = pct >= 80 ? {en:'Outstanding spelling!',ar:'إملاء رائع!'} : pct >= 50 ? {en:'Good effort!',ar:'مجهود جيد!'} : {en:'Keep practicing!',ar:'واصل التدريب!'};
+    spellPanel.innerHTML = `<div class="quiz-done"><div class="score-num">${spell.score} / ${spell.order.length}</div>
+      <p style="font-weight:700;margin:10px 0 0;">${msg.en}</p><p class="ar" style="font-size:1.1rem;margin:2px 0 20px;">${msg.ar}</p>
+      <button class="btn" id="spellRetry">Try Again</button></div>`;
+    document.getElementById('spellRetry').addEventListener('click', ()=>{
+      spell = { order: shuffle(VOCAB.map((_,i)=>i)), idx:0, score:0, answered:false }; renderSpell();
+    });
+    return;
+  }
+  const wIdx = spell.order[spell.idx];
+  const word = VOCAB[wIdx];
+  spellPanel.innerHTML = `<div class="quiz-top"><span class="quiz-progress">Word ${spell.idx+1} / ${spell.order.length}</span><span class="quiz-score">Score: ${spell.score}</span></div>
+    <div class="listen-block">
+      <div class="spell-hint"><span class="em">${word.img}</span><span class="ar">${word.ar}</span></div>
+      <button class="listen-big" id="spellPlay" aria-label="Play word">${PLAY_ICON}</button>
+      <span class="listen-label">Listen, then type the word</span>
+      <input type="text" class="spell-input" id="spellInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here...">
+      <div class="spell-answer" id="spellAnswer"></div>
+    </div>
+    <div class="spell-actions">
+      <button class="btn" id="spellCheck">Check</button>
+      <button class="btn" id="spellNext" disabled>Next</button>
+    </div>`;
+  const input = document.getElementById('spellInput');
+  const playBtn = document.getElementById('spellPlay');
+  const checkBtn = document.getElementById('spellCheck');
+  const nextBtn = document.getElementById('spellNext');
+  playBtn.addEventListener('click', ()=>speak(word.en));
+  speak(word.en);
+  function doCheck(){
+    if(spell.answered) return;
+    spell.answered = true;
+    input.disabled = true; checkBtn.disabled = true; nextBtn.disabled = false;
+    const ok = normalize(input.value) === normalize(word.en);
+    if(ok){
+      input.classList.add('correct'); spell.score++;
+      document.getElementById('spellAnswer').innerHTML = `<strong>${word.en}</strong> ${word.ipa}`;
+      showToast(pick(PRAISE),'correct');
+    } else {
+      input.classList.add('wrong');
+      document.getElementById('spellAnswer').innerHTML = `Correct spelling: <strong>${word.en}</strong> ${word.ipa}`;
+      showToast(pick(ENCOURAGE),'wrong');
+    }
+    spellPanel.querySelector('.quiz-score').textContent = 'Score: ' + spell.score;
+  }
+  checkBtn.addEventListener('click', doCheck);
+  input.addEventListener('keydown', e=>{ if(e.key === 'Enter') doCheck(); });
+  nextBtn.addEventListener('click', ()=>{ spell.idx++; spell.answered = false; renderSpell(); });
+  input.focus();
+}
+renderSpell();
+if(STATE.spellDone) markStep('pstep-7', true);
+</script>
